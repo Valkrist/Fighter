@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://game/game_settings.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+I_N_P_U_T = ""
+pad_0_device = 0
+pad_1_device = 1
+keyboard_pad = 0
+reticle_control = 1
+D_I_S_P_L_A_Y = ""
+zoom = 1
+fullscreen = false
+center_window = false

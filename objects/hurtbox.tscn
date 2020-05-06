@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://objects/collision_volume.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/hurtbox.gd" type="Script" id=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 0.47, 0.87, 0.32, 0.33 )
+
+[node name="Hurtbox" instance=ExtResource( 1 )]
+monitoring = false
+collision_layer = 1024
+collision_mask = 0
+script = ExtResource( 2 )
+active = true
+spawn_hit_effect = false
+
+[node name="MeshInstance" parent="." index="1"]
+material/0 = SubResource( 1 )
