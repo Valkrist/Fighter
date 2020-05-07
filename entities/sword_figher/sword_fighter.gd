@@ -1,6 +1,9 @@
 extends KinematicBody
 class_name Entity
 
+# warning-ignore:unused_signal
+signal hp_changed(new_value)
+
 enum Stances {OFFENSIVE, DEFENSIVE, UNIQUE}
 const TERMINAL_VELOCITY = -50
 
@@ -10,7 +13,10 @@ export var default_ground_drag = 10
 export var ground_drag = 10
 export var default_tracking_speed = 20
 export var tracking_speed = 20
+export var max_hp = 1000
 
+var hp = 1000 setget set_hp
+var received_hit : Hit
 var target_point = Vector3.ZERO
 var target_rotation = 0.0
 var motion_vector = Vector3.ZERO
@@ -22,7 +28,7 @@ var old_animation = ""
 var animation_slot = 1
 var current_stance = Stances.UNIQUE
 
-onready var lock_on_target = get_node(target)
+onready var lock_on_target : Spatial = get_node(target)
 onready var input_listener = $InputListener
 onready var model = $ModelContainer/sword_fighter
 onready var camera_pivot = $CameraPointPivot
@@ -33,6 +39,13 @@ onready var anim_player = $ModelContainer/sword_fighter/AnimationPlayer
 onready var anim_state_machine = $AnimationTree.get("parameters/StateMachine/playback")
 onready var fsm = $FSM
 onready var flags = $AnimationFlags
+
+func set_hp(value):
+	hp = clamp(value, 0, max_hp)
+	emit_signal("hp_changed", hp)
+
+func get_direction():
+	return model_container.transform.basis.get_euler()
 
 func _ready():
 	fsm.setup()
@@ -99,7 +112,6 @@ func _physics_process(delta):
 			# interpolate current rotation with desired one
 	
 	
-	fsm._process_current_state(delta, true)
 	
 #	model.translation = model.get_node("Armature/Skeleton").get_bone_pose(0).origin / 1.65
 #	print(model.get_node("Armature/Skeleton").get_bone_pose(0).origin)
@@ -113,23 +125,30 @@ func _physics_process(delta):
 #	root_motion = -model.get_node("Armature/Skeleton").get_bone_pose(0).origin
 #	model.get_node("Armature/Skeleton").set_bone_pose(0, Transform.IDENTITY)
 	
+	if velocity.y > TERMINAL_VELOCITY:
+		if not is_on_floor():
+			velocity.y -= 9.8 * delta * 20
+		else:
+			velocity.y -= 9.8 * delta * 0.3
+	else:
+		velocity.y = TERMINAL_VELOCITY
 	
-#
-#	velocity.y = y_velocity
-	
-#	if velocity.y > TERMINAL_VELOCITY:
-#		velocity.y -= 9.8 * delta
-#	else:
-#		velocity.y = TERMINAL_VELOCITY
-		
 	velocity = move_and_slide(velocity, Vector3.UP, false, 4, 0.785398, true)
+#	velocity = move_and_slide_with_snap(velocity, Vector3.DOWN, Vector3.UP, false, 4, 0.785398, true)
 #	move_and_slide(velocity, Vector3.UP, false, 4, 0.785398, true)
+#	if count > 4:
+#		prints(name, velocity)
+#		prints(is_on_floor())
+#		count = 0
+#	count += 1
 
-#	$AnimationEvents.advance(delta)
-#	$AnimationTree.advance(delta)
+	fsm._process_current_state(delta, true)
 
 func set_velocity(_velocity):
 	velocity = _velocity.rotated(Vector3.UP, model_container.rotation.y)
+	
+func add_impulse(value : Vector3):
+	velocity += value
 
 func apply_tracking(delta):
 	var current_rot = model_container.rotation.y
@@ -146,7 +165,8 @@ func apply_drag(delta):
 #		velocity.x -= ground_drag * delta * sign(velocity.x)
 #		if abs(velocity.z) > 0: 
 #		velocity.z -= ground_drag * delta * sign(velocity.z)
-		velocity += velocity.rotated(Vector3.UP, deg2rad(180)).normalized() * ground_drag * delta
+		var negative_vector = velocity.rotated(Vector3.UP, deg2rad(180)).normalized() * ground_drag * delta
+		velocity += Vector3(negative_vector.x, 0.0, negative_vector.z)
 #	print(velocity)
 
 func apply_root_motion(delta):
@@ -162,10 +182,11 @@ func apply_root_motion(delta):
 #		speed = root_motion - old
 #	old = root_motion
 #	velocity = (speed).rotated(Vector3.UP, model_container.rotation.y) * 40
-	
-	velocity = -anim_tree.get_root_motion_transform().origin.rotated(Vector3.UP, model_container.rotation.y) * 40
+	var root_motion_speed = -anim_tree.get_root_motion_transform().origin.rotated(Vector3.UP, model_container.rotation.y) * 40
+	velocity = Vector3(root_motion_speed.x, velocity.y, root_motion_speed.z)
 #	print(-anim_tree.get_root_motion_transform().origin)
 	pass
+
 
 func get_current_animation():
 	return $AnimationEvents.assigned_animation
@@ -250,6 +271,7 @@ func tween_camera_position(position):
 	$Tween.start()
 
 func _on_Hurtbox_received_hit(hit, hurtbox):
+	received_hit = hit
 	fsm.receive_event("_received_hit", hit)
 
 func _on_Hitbox_dealt_hit(hit, collided_entity):

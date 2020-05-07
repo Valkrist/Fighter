@@ -14,7 +14,7 @@
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.558514
-height = 0.308236
+height = 2.0
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -168,6 +168,30 @@ tracks/10/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("ModelContainer/Hitbox:hit_name")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "def_hi_light" ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("ModelContainer/Hitbox2:hit_name")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "def_hi_light" ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -646,6 +670,30 @@ tracks/8/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("ModelContainer/Hitbox2:hit_name")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "off_hi_r_heavy" ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("ModelContainer/Hitbox:hit_name")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "off_hi_r_heavy" ]
+}
 
 [sub_resource type="Animation" id=18]
 length = 0.916667
@@ -789,9 +837,21 @@ tracks/8/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("ModelContainer/Hitbox2:hit_name")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "off_hi_r_light" ]
+}
 
 [sub_resource type="Animation" id=21]
-step = 0.0166667
+step = 0.016
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_evade_cancelable")
 tracks/0/interp = 1
@@ -803,6 +863,138 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationFlags:is_evade_cancelable")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.864 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimationFlags:is_stringable")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.864 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimationFlags:track_target")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.864 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 2,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("ModelContainer/Hitbox:hit_name")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ "off_kick" ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ModelContainer/Hitbox:active")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.368, 0.416 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 2,
+"values": [ true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("ModelContainer/Hitbox:translation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector3( 0.00636727, 1.25873, -1.73022 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("ModelContainer/Hitbox:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector3( 0.524719, 0.524719, 0.524719 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("ModelContainer/Hitbox2:active")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = false
+tracks/8/keys = {
+"times": PoolRealArray( 0.384, 0.432 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("ModelContainer/Hitbox2:translation")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = false
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector3( 0.0517746, 1.25873, -1.03754 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("ModelContainer/Hitbox2:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = false
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector3( 0.863382, 0.863382, 0.863382 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("ModelContainer/Hitbox2:hit_name")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = false
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "off_hi_r_heavy" ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -1479,6 +1671,7 @@ albedo_color = Color( 1, 0.294118, 0.294118, 1 )
 
 [node name="sword_fighter" type="KinematicBody"]
 script = ExtResource( 2 )
+default_ground_drag = 15
 
 [node name="FSM" parent="." instance=ExtResource( 4 )]
 state_list_script = ExtResource( 5 )
@@ -1495,10 +1688,9 @@ is_evade_cancelable = true
 is_command_cancelable = true
 is_stringable = true
 no_root_motion_to_speed = true
-track_target = true
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.716949, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.55842, 0 )
 shape = SubResource( 1 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -1579,7 +1771,7 @@ material/0 = SubResource( 46 )
 material/0 = SubResource( 46 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 0.326458, -0.295979, -0.897676, -0.274191, 0.879218, -0.389609, 0.904569, 0.373326, 0.205873, 0.112911, 1.5083, -0.458656 )
+transform = Transform( 0.127279, 0.140609, -0.98185, 0.0350315, 0.988646, 0.146124, 0.991248, -0.052994, 0.120908, 0.295545, 1.73421, 1.00446 )
 bone_name = "torso"
 
 [node name="Hurtbox" parent="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment" instance=ExtResource( 11 )]
@@ -1591,14 +1783,16 @@ playback_process_mode = 0
 blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
 
 [node name="Hitbox" parent="ModelContainer" instance=ExtResource( 9 )]
-transform = Transform( 1.00906, 0, 0, 0, 1.00906, 0, 0, 0, 1.00906, 0.809197, 1.25873, 0.198503 )
+transform = Transform( 0.524719, 0, 0, 0, 0.524719, 0, 0, 0, 0.524719, 0.00636727, 1.25873, -1.73022 )
+active = true
 hit_info = ExtResource( 10 )
-hit_name = "off_hi_r_light"
+hit_name = "off_hi_r_heavy"
 
 [node name="Hitbox2" parent="ModelContainer" instance=ExtResource( 9 )]
 transform = Transform( 0.863382, 0, 0, 0, 0.863382, 0, 0, 0, 0.863382, 0.0517746, 1.25873, -1.03754 )
+active = true
 hit_info = ExtResource( 10 )
-hit_name = "off_hi_r_light"
+hit_name = "off_hi_r_heavy"
 
 [node name="CameraPointPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )

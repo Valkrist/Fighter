@@ -65,4 +65,4 @@ nodes/space2d_seek/node = SubResource( 9 )
 nodes/space2d_seek/position = Vector2( 640, 160 )
 nodes/walk_blend/node = SubResource( 14 )
 nodes/walk_blend/position = Vector2( 440, 160 )
-node_connections = [ "output", 0, "TimeScale", "space2d_seek", 0, "walk_blend", "animation_1_seek", 0, "animation_1", "animation_-1_seek", 0, "animation_-1", "anim_and_space", 0, "1_and_-1", "anim_and_space", 1, "space2d_seek", "TimeScale", 0, "Seek", "Seek", 0, "anim_and_space", "1_and_-1", 0, "animation_1_seek", "1_and_-1", 1, "animation_-1_seek" ]
+node_connections = [ "output", 0, "TimeScale", "1_and_-1", 0, "animation_1_seek", "1_and_-1", 1, "animation_-1_seek", "Seek", 0, "anim_and_space", "TimeScale", 0, "Seek", "anim_and_space", 0, "1_and_-1", "anim_and_space", 1, "space2d_seek", "animation_-1_seek", 0, "animation_-1", "animation_1_seek", 0, "animation_1", "space2d_seek", 0, "walk_blend" ]

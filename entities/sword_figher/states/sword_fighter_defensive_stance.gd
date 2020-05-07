@@ -43,8 +43,10 @@ func _enter_state():
 #	._animation_finished(anim_name)
 
 func _process_state(delta):
-	entity.apply_root_motion(delta)
-	._process_state(delta)
+#	entity.apply_root_motion(delta)
+	if entity.flags.track_target:
+		entity.apply_tracking(delta)
+	entity.apply_drag(delta)
 
 #func _received_input(key, state):
 #	if entity.get_current_animation() != "stance_def_to_off":

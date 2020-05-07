@@ -5,6 +5,7 @@ func _enter_state():
 #	entity.flags.track_target = true
 #	entity.tracking_speed = 2.0
 	
+	entity.ground_drag = 30
 	if entity.input_listener.is_key_pressed(InputManager.DOWN):
 		entity.set_animation("off_block_low", 0, 15.0)
 	else:
@@ -17,8 +18,11 @@ func _enter_state():
 #	._exit_state()
 #	pass
 
-#func _process_state(delta):
+func _process_state(delta):
 #	entity.apply_root_motion(delta)
+	if entity.flags.track_target:
+		entity.apply_tracking(delta)
+	entity.apply_drag(delta)
 #
 ##func _animation_blend_started(anim_name):
 ##	print(anim_name)
@@ -27,6 +31,11 @@ func _enter_state():
 
 func _received_hit(hit : Hit):
 #	set_next_state("hit_stun")
+#	entity.hp -= entity.received_hit.damage
+#	entity.velocity = Vector3.ZERO
+	var knockback_vector = entity.received_hit.knockback.rotated(-entity.received_hit.direction.y)
+	entity.add_impulse(Vector3(knockback_vector.x, 0, knockback_vector.y))
+#	entity.set_animation("off_kick", 0, 6.0)
 	pass
 
 #

@@ -36,7 +36,11 @@ func _enter_state():
 
 func _process_state(delta):
 #	entity.apply_root_motion(delta)
-	._process_state(delta)
+	if entity.flags.track_target:
+		entity.apply_tracking(delta)
+	entity.apply_drag(delta)
+	
+#	._process_state(delta)
 
 #func _received_input(key, state):
 #	print(entity.flags.is_stringable)

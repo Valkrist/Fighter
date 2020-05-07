@@ -35,6 +35,7 @@ func set_active(value):
 
 func _ready():
 	set_physics_process(false)
+	$MeshInstance.visible = false
 #	print(owner.name)
 #	print(ProjectSettings.get_setting("layer_names/2d_physics/layer_1"))
 #	$Area2D.set_collision_layer_bit(, true)
@@ -46,7 +47,8 @@ func _physics_process(delta):
 	if get_overlapping_areas().size() != 0:
 		if last_collided_entity == null:
 #			last_collided_entity = get_overlapping_areas()[0].entity
-			build_hit(get_overlapping_areas()[0])
+			for area in get_overlapping_areas():
+				build_hit(area)
 			
 #		prints(name, f)
 
@@ -81,18 +83,18 @@ func build_hit(area):
 		for key in hit_info.HITS[hit_name]:
 			new_hit.set(key, hit_info.HITS[hit_name][key])
 		
-#		if new_hit.directional:
-#			new_hit.direction = int(owner.get_direction().x)
+		if new_hit.directional:
+			new_hit.direction = owner.get_direction()
 #		else:
 #			new_hit.direction = int(sign(area.global_position.x - global_position.x))
 		
 	var collided_hurtbox = area
 		
-	if collided_hurtbox.ignore_hits_from_direction != 0:
-		if new_hit.one_way:
-			new_hit.direction = -sign(owner.velocity.x)
-			if collided_hurtbox.ignore_hits_from_direction == new_hit.direction:
-				return
+#	if collided_hurtbox.ignore_hits_from_direction != 0:
+#		if new_hit.one_way:
+#			new_hit.direction = -sign(owner.velocity.x)
+#			if collided_hurtbox.ignore_hits_from_direction == new_hit.direction:
+#				return
 	
 #	new_hit.position = global_transform.origin
 	new_hit.source = entity

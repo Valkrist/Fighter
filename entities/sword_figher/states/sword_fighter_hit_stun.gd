@@ -6,6 +6,10 @@ func get_animation_data():
 
 # Initialize state here: Set animation, add impulse, etc.
 func _enter_state():
+	entity.hp -= entity.received_hit.damage
+	entity.velocity = Vector3.ZERO
+	var knockback_vector = entity.received_hit.knockback.rotated(-entity.received_hit.direction.y)
+	entity.add_impulse(Vector3(knockback_vector.x, 0, knockback_vector.y))
 	entity.ground_drag = 30
 #	entity.set_animation("off_kick", 0, 6.0)
 	._enter_state()
@@ -15,7 +19,9 @@ func _exit_state():
 	entity.ground_drag = entity.default_ground_drag
 #	pass
 
-#func _process_state(delta):
+func _process_state(delta):
+	entity.apply_drag(delta)
+	pass
 #	entity.apply_root_motion(delta)
 #
 ##func _animation_blend_started(anim_name):
