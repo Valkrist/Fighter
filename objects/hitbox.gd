@@ -41,10 +41,14 @@ func _ready():
 #	connect("area_entered", $"..", "_on_Area2D_area_entered", [self])
 
 func _physics_process(delta):
-	f += 1
+#	f += 1
 #	prints(name, overlapping_objects, f)
 	if get_overlapping_areas().size() != 0:
-		prints(name, f)
+		if last_collided_entity == null:
+#			last_collided_entity = get_overlapping_areas()[0].entity
+			build_hit(get_overlapping_areas()[0])
+			
+#		prints(name, f)
 
 func hit():
 	set_active(true)
@@ -60,11 +64,10 @@ func hit_named(_hit_name):
 func receive_hit(hit):
 	owner.hit = hit
 
-
 func build_hit(area):
 	var collided_entity = area.get_node("..").owner
 	# avoid hitting self and avoid hittin the same entity twice
-	if collided_entity == entity or last_collided_entity == collided_entity: 
+	if collided_entity == entity or last_collided_entity == collided_entity:
 		return
 	
 	last_collided_entity = collided_entity
@@ -83,7 +86,7 @@ func build_hit(area):
 #		else:
 #			new_hit.direction = int(sign(area.global_position.x - global_position.x))
 		
-	var collided_hurtbox = area.get_node("..")
+	var collided_hurtbox = area
 		
 	if collided_hurtbox.ignore_hits_from_direction != 0:
 		if new_hit.one_way:
@@ -91,7 +94,7 @@ func build_hit(area):
 			if collided_hurtbox.ignore_hits_from_direction == new_hit.direction:
 				return
 	
-	new_hit.position = global_transform.origin
+#	new_hit.position = global_transform.origin
 	new_hit.source = entity
 	
 	# Check hit

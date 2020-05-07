@@ -107,7 +107,6 @@ var pad_1_stick_joystick = {
 var keys_keyboard = {
 	KEY_SPACE : [GUARD],
 	KEY_Q : [SPECIAL],
-	KEY_E : [STANCE, EVADE],
 	KEY_SHIFT : [EVADE],
 	KEY_ENTER : [START],
 	KEY_TAB : [START],
@@ -115,7 +114,10 @@ var keys_keyboard = {
 	KEY_S : [DOWN],
 	KEY_A : [LEFT],
 	KEY_D : [RIGHT],
-	KEY_R : [TAUNT],
+	KEY_F : [LIGHT],
+	KEY_R : [HEAVY],
+	KEY_E : [HEAVY],
+	KEY_G : [STANCE],
 	KEY_CONTROL : [STANCE],
 #	KEY_CONTROL : [SPECIAL, GUARD],
 

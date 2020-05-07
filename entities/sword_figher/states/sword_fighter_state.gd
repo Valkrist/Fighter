@@ -54,7 +54,8 @@ func _process_state(delta):
 #	entity.set_hurtboxes_active(true)
 #	._exit_state()
 
-#func _received_hit(hit : Hit):
+func _received_hit(hit : Hit):
+	set_next_state("hit_stun")
 #	if entity.flags.is_defending:
 #		return
 #

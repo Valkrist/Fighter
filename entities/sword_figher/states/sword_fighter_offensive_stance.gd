@@ -35,7 +35,7 @@ func _enter_state():
 #	._animation_finished(anim_name)
 
 func _process_state(delta):
-	entity.apply_root_motion(delta)
+#	entity.apply_root_motion(delta)
 	._process_state(delta)
 
 #func _received_input(key, state):

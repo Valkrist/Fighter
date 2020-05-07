@@ -17,7 +17,7 @@ export var animation_end = false setget set_animation_end
 export var buffer_input = false
 export var gravity = true setget set_gravity
 export var no_root_motion_to_speed = false
-export var track_target = true
+export var track_target = false
 
 signal flag_changed(flag, value)
 
@@ -36,7 +36,7 @@ func reset_all_flags():
 	buffer_input = false
 	gravity = true
 	no_root_motion_to_speed = false
-	track_target = true
+	track_target = false
 #	if speed_up:
 		# emit signal only if it was true
 #		self.speed_up = false

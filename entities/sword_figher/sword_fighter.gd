@@ -6,7 +6,9 @@ const TERMINAL_VELOCITY = -50
 
 export(NodePath) var target
 export var walk_speed = 3
+export var default_ground_drag = 10
 export var ground_drag = 10
+export var default_tracking_speed = 20
 export var tracking_speed = 20
 
 var target_point = Vector3.ZERO
@@ -246,3 +248,10 @@ func tween_camera_position(position):
 #		Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 		
 	$Tween.start()
+
+func _on_Hurtbox_received_hit(hit, hurtbox):
+	fsm.receive_event("_received_hit", hit)
+
+func _on_Hitbox_dealt_hit(hit, collided_entity):
+	fsm.receive_event("_dealt_hit", collided_entity) 
+	pass # Replace with function body.

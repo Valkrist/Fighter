@@ -117,14 +117,14 @@ func _received_hit(p_hit):
 #	entity.hit = p_hit
 #	determine_hit_stop(p_hit)
 	
-	entity.tiredness += p_hit.tiredness
-	if entity.tiredness > entity.tiredness_limit and not entity.exausted:
-		entity.exausted = true
+#	entity.tiredness += p_hit.tiredness
+#	if entity.tiredness > entity.tiredness_limit and not entity.exausted:
+#		entity.exausted = true
 	
-	if not entity.flags.is_defending:
-		entity.hp -= p_hit.damage
-		entity.emit_signal("hp_changed", entity.hp)
-		entity.flash_color(Color.red, 0.05)
+#	if not entity.flags.is_defending:
+#		entity.hp -= p_hit.damage
+#		entity.emit_signal("hp_changed", entity.hp)
+#		entity.flash_color(Color.red, 0.05)
 #		entity.get_node("Sounds/Damage").play(0.0)
 		
 #		if entity.hp > 0:
@@ -137,8 +137,9 @@ func _received_hit(p_hit):
 #			entity.material.set_shader_param("sub_palette_index", 7)
 #			$Sounds/Dead.play()
 
-		if entity.hp < 0:
-			entity.material.set_shader_param("sub_palette_index", 7)
+#		if entity.hp < 0:
+#			entity.material.set_shader_param("sub_palette_index", 7)
+	pass
 
 func _received_parry(parrying_entity):
 #	var parry_hit = Hit.new(Hit.INIT_TYPE.PARRY)

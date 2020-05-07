@@ -36,6 +36,9 @@ func _flag_changed(flag, state):
 			set_next_state("walk")
 	pass
 
+func _dealt_hit(collided_entity):
+	entity.flags.track_target = true
+
 #func _received_input(key, state):
 #	if entity.flags.is_stringable:
 #		if state:
