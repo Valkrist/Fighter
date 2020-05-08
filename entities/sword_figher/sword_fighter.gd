@@ -52,8 +52,10 @@ func set_has_camera(value):
 	has_camera = value
 	if value:
 		input_listener.reverse_left_right = false
+#		input_listener.reverse_up_down = false
 	else:
 		input_listener.reverse_left_right = true
+#		input_listener.reverse_up_down = true
 
 func get_direction():
 	return model_container.transform.basis.get_euler()
@@ -273,13 +275,17 @@ func request_camera(side):
 		emit_signal("requested_camera", self)
 
 func set_camera_side(side):
+#	if not has_camera:
+#		return
+		
 	camera_side = side
 	camera_point.translation.x = default_camera_pos.x * side
 	camera_point.look_at(target_point + Vector3(0.0, 1.0, 0.0), Vector3.UP)
 
 func tween_camera_position(position):
-#	camera_position = camera_pivot.get_node("Position3D").translation
-#	var camera_rot = camera_pivot.get_node("Position3D").rotation_degrees
+	if not has_camera:
+		return
+
 	$Tween.interpolate_property(
 		$CameraPointPivot/Position3D, "translation",
 		camera_point.translation, Vector3(position, camera_point.translation.y, camera_point.translation.z), 1,

@@ -85,9 +85,9 @@ rect_scale = Vector2( 0.75, 0.75 )
 [node name="InputDisplay2" parent="." instance=ExtResource( 6 )]
 anchor_left = 1.0
 anchor_top = 1.0
-margin_left = -448.0
+margin_left = -384.0
 margin_top = -160.0
-margin_right = 149.0
+margin_right = 128.0
 margin_bottom = 52.0
 rect_scale = Vector2( 0.75, 0.75 )
 listen_to_pad = 1
@@ -230,12 +230,6 @@ material/0 = SubResource( 15 )
 
 [node name="sword" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="1"]
 material/0 = SubResource( 15 )
-
-[node name="BoneAttachment" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 0.12379, -0.336002, -0.933691, -0.270738, 0.893793, -0.357539, 0.95466, 0.297046, 0.0196746, 0.114741, 1.59925, -0.447376 )
-
-[node name="AnimationPlayer" parent="sword_fighter2/ModelContainer/sword_fighter" index="1"]
-blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
 
 [node name="InterpolatedCamera" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.00497429, -0.459186, 0.888326, 0, 0.888337, 0.459192, -0.999988, 0.00228415, -0.00441884, 5.30534, 3.75645, -0.193563 )
