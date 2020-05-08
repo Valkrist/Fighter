@@ -3,6 +3,7 @@ class_name Entity
 
 # warning-ignore:unused_signal
 signal hp_changed(new_value)
+signal requested_camera(entity)
 
 enum Stances {OFFENSIVE, DEFENSIVE, UNIQUE}
 const TERMINAL_VELOCITY = -50
@@ -17,6 +18,8 @@ export var max_hp = 1000
 
 var hp = 1000 setget set_hp
 var received_hit : Hit
+var has_camera = false setget set_has_camera
+var camera_side = 1
 var target_point = Vector3.ZERO
 var target_rotation = 0.0
 var motion_vector = Vector3.ZERO
@@ -33,6 +36,7 @@ onready var input_listener = $InputListener
 onready var model = $ModelContainer/sword_fighter
 onready var camera_pivot = $CameraPointPivot
 onready var camera_point = $CameraPointPivot/Position3D
+onready var default_camera_pos = $CameraPointPivot/Position3D.translation
 onready var model_container = $ModelContainer
 onready var anim_tree = $AnimationTree
 onready var anim_player = $ModelContainer/sword_fighter/AnimationPlayer
@@ -43,6 +47,13 @@ onready var flags = $AnimationFlags
 func set_hp(value):
 	hp = clamp(value, 0, max_hp)
 	emit_signal("hp_changed", hp)
+
+func set_has_camera(value):
+	has_camera = value
+	if value:
+		input_listener.reverse_left_right = false
+	else:
+		input_listener.reverse_left_right = true
 
 func get_direction():
 	return model_container.transform.basis.get_euler()
@@ -84,7 +95,7 @@ func _physics_process(delta):
 	var target_vector = global_transform.origin.direction_to(target_point)
 	target_rotation = PI + atan2(target_vector.x, target_vector.z)
 	
-	$CameraPointPivot/Position3D.look_at(target_point + Vector3(0.0, 1.0, 0.0), Vector3.UP)
+	camera_point.look_at(target_point + Vector3(0.0, 1.0, 0.0), Vector3.UP)
 #	$CameraPointPivot/Position3D.rotation.z = 0
 #	$CameraPointPivot/Position3D.rotation.y = 0
 #	$CameraPointPivot/Position3D.rotation.x = 0
@@ -256,13 +267,25 @@ func _on_AnimationFlags_flag_changed(flag, value):
 func _on_AnimationEvents_animation_finished(anim_name):
 	fsm.receive_event("_animation_finished", anim_name)
 
+func request_camera(side):
+	if not has_camera:
+		set_camera_side(side)
+		emit_signal("requested_camera", self)
+
+func set_camera_side(side):
+	camera_side = side
+	camera_point.translation.x = default_camera_pos.x * side
+	camera_point.look_at(target_point + Vector3(0.0, 1.0, 0.0), Vector3.UP)
+
 func tween_camera_position(position):
-	var camera_pos = camera_pivot.get_node("Position3D").translation
+#	camera_position = camera_pivot.get_node("Position3D").translation
 #	var camera_rot = camera_pivot.get_node("Position3D").rotation_degrees
 	$Tween.interpolate_property(
 		$CameraPointPivot/Position3D, "translation",
-		camera_pos, Vector3(position, camera_pos.y, camera_pos.z), 1,
+		camera_point.translation, Vector3(position, camera_point.translation.y, camera_point.translation.z), 1,
 		Tween.TRANS_QUAD, Tween.EASE_OUT)
+	if position != 0:
+		camera_side = sign(position)
 #	$Tween.interpolate_property(
 #		$CameraPointPivot/Position3D, "rotation_degrees",
 #		camera_rot, Vector3(camera_rot.x, 15 * sign(position), camera_rot.z), 1,
@@ -277,3 +300,13 @@ func _on_Hurtbox_received_hit(hit, hurtbox):
 func _on_Hitbox_dealt_hit(hit, collided_entity):
 	fsm.receive_event("_dealt_hit", collided_entity) 
 	pass # Replace with function body.
+
+func _on_RSide_body_entered(body):
+	if not body == self and body is KinematicBody:
+		if body.get_current_animation() == "run_loop":
+			request_camera(-1)
+
+func _on_LSide_body_entered(body):
+	if not body == self and body is KinematicBody:
+		if body.get_current_animation() == "run_loop":
+			request_camera(1)

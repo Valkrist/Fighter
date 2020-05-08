@@ -5,17 +5,19 @@ extends "res://entities/sword_figher/states/sword_fighter_offensive_moves.gd"
 #	return ["off_h_r_heavy", 0.0, 5.0]
 var direction = 0
 var released_up = false
-var camera_pos = 2.0
+var start_camera_pos
 
 ## Initialize state here: Set animation, add impulse, etc.
 func _enter_state():
-#	camera_pos = entity.camera_point.translation.x
+	start_camera_pos = entity.camera_point.translation.x
 	entity.set_animation("off_run_startup", 0, 10.0)
 #	._enter_state()
 #
 ## Inverse of enter_state.
-##func _exit_state():
-##	pass
+func _exit_state():
+	if entity.get_current_animation() == "run_loop":
+		entity.tween_camera_position(start_camera_pos)
+	pass
 #
 func _process_state(delta):
 	if entity.flags.is_active:
@@ -49,16 +51,12 @@ func _animation_finished(anim_name):
 			if entity.input_listener.is_key_pressed(InputManager.RIGHT):
 				direction = 1
 				entity.tween_camera_position(0.0)
-				camera_pos = -2.0
-#				entity.tween_camera_position(-2.0)
+#				entity.tween_camera_position(entity.default_camera_pos.x * -direction)
 			elif entity.input_listener.is_key_pressed(InputManager.LEFT):
 				direction = -1
+#				entity.tween_camera_position(entity.default_camera_pos.x * -direction)
 				entity.tween_camera_position(0.0)
-				camera_pos = 2.0
-			else:
-				camera_pos = 2.0
-#				entity.tween_camera_position(2.0)
-	#		entity.set_velocity(Vector3(0.0, 0.0, -20.0))
+				
 	elif anim_name == "off_run_stop":
 		set_next_state("offensive_stance")
 #	set_next_state("offensive_stance")
@@ -82,7 +80,10 @@ func _received_input(key, state):
 			released_up = true
 			if entity.get_current_animation() == "run_loop":
 				if direction != 0:
-					entity.tween_camera_position(camera_pos)
+					entity.tween_camera_position(entity.default_camera_pos.x * -direction)
+				else:
+					entity.tween_camera_position(start_camera_pos)
+				entity.ground_drag = 20
 				entity.set_animation("off_run_stop", 0, 10.0)
 #				set_next_state("off_hi_fierce")
 	._received_input(key, state)

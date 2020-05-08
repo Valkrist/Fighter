@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://entities/sword_figher/model/sword_fighter.glb" type="PackedScene" id=1]
 [ext_resource path="res://entities/sword_figher/sword_fighter.gd" type="Script" id=2]
@@ -934,7 +934,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ Vector3( 0.00636727, 1.25873, -1.73022 ) ]
+"values": [ Vector3( 0.00636727, 1.25873, -1.03357 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("ModelContainer/Hitbox:scale")
@@ -994,7 +994,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ "off_hi_r_heavy" ]
+"values": [ "off_kick" ]
 }
 
 [sub_resource type="Animation" id=22]
@@ -1370,7 +1370,7 @@ tracks/1/path = NodePath("AnimationFlags:is_stringable")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = false
+tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -1669,6 +1669,9 @@ tracks/4/keys = {
 flags_vertex_lighting = true
 albedo_color = Color( 1, 0.294118, 0.294118, 1 )
 
+[sub_resource type="RayShape" id=47]
+length = 3.0
+
 [node name="sword_fighter" type="KinematicBody"]
 script = ExtResource( 2 )
 default_ground_drag = 15
@@ -1771,7 +1774,7 @@ material/0 = SubResource( 46 )
 material/0 = SubResource( 46 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 0.127279, 0.140609, -0.98185, 0.0350315, 0.988646, 0.146124, 0.991248, -0.052994, 0.120908, 0.295545, 1.73421, 1.00446 )
+transform = Transform( 0.12379, -0.336002, -0.933691, -0.270738, 0.893793, -0.357539, 0.95466, 0.297046, 0.0196746, 0.114741, 1.59925, -0.447376 )
 bone_name = "torso"
 
 [node name="Hurtbox" parent="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment" instance=ExtResource( 11 )]
@@ -1783,22 +1786,36 @@ playback_process_mode = 0
 blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
 
 [node name="Hitbox" parent="ModelContainer" instance=ExtResource( 9 )]
-transform = Transform( 0.524719, 0, 0, 0, 0.524719, 0, 0, 0, 0.524719, 0.00636727, 1.25873, -1.73022 )
+transform = Transform( 0.524719, 0, 0, 0, 0.524719, 0, 0, 0, 0.524719, 0.00636727, 1.25873, -1.03357 )
 active = true
 hit_info = ExtResource( 10 )
 hit_name = "off_hi_r_heavy"
 
 [node name="Hitbox2" parent="ModelContainer" instance=ExtResource( 9 )]
-transform = Transform( 0.863382, 0, 0, 0, 0.863382, 0, 0, 0, 0.863382, 0.0517746, 1.25873, -1.03754 )
+transform = Transform( 0.555088, 0, 0, 0, 0.555088, 0, 0, 0, 0.555088, -0.00455561, 1.25873, -0.340885 )
 active = true
 hit_info = ExtResource( 10 )
-hit_name = "off_hi_r_heavy"
+hit_name = "off_kick"
+
+[node name="RSide" type="Area" parent="ModelContainer"]
+transform = Transform( -5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 0, 1, 0 )
+collision_layer = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="ModelContainer/RSide"]
+shape = SubResource( 47 )
+
+[node name="LSide" type="Area" parent="ModelContainer"]
+transform = Transform( -2.98023e-08, -1.40579e-05, -1, -1.85075e-06, 1, -1.40579e-05, 1, 1.85075e-06, -2.98023e-08, 0, 1, 0 )
+collision_layer = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="ModelContainer/LSide"]
+shape = SubResource( 47 )
 
 [node name="CameraPointPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
 
 [node name="Position3D" type="Position3D" parent="CameraPointPivot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -0.6, 2.5 )
 
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 3.0
@@ -1810,5 +1827,7 @@ playback/speed = 3.0
 [connection signal="received_hit" from="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment/Hurtbox" to="." method="_on_Hurtbox_received_hit"]
 [connection signal="dealt_hit" from="ModelContainer/Hitbox" to="." method="_on_Hitbox_dealt_hit"]
 [connection signal="dealt_hit" from="ModelContainer/Hitbox2" to="." method="_on_Hitbox_dealt_hit"]
+[connection signal="body_entered" from="ModelContainer/RSide" to="." method="_on_RSide_body_entered"]
+[connection signal="body_entered" from="ModelContainer/LSide" to="." method="_on_LSide_body_entered"]
 
 [editable path="ModelContainer/sword_fighter"]

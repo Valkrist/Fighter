@@ -71,32 +71,40 @@ func _received_input (pad, key, state):
 	if enabled and not get_tree().paused:
 		for n in listen_to_pads:
 			if n == pad:
-				emit_signal("received_input", key, state)
+				# Press a direction on d-pad, wasd, etc.
+				var dir = InputManager.get_direction(key)
+				if dir != null:
 					
-				if state == InputManager.PRESSED:
+					dir = get_reverse(dir)
+					
+					emit_signal("received_input", InputManager.DIRECTIONS_TO_KEYS[dir], state)
+					
+					if state == InputManager.PRESSED:
+						add_to_input_buffer(InputManager.DIRECTIONS_TO_KEYS[dir])
+						check_input_chains(InputManager.DIRECTIONS_TO_KEYS[dir])
+					
+						if remember_last_input_direction:
+							last_input_direction = InputManager.DIRECTIONS_TO_KEYS[dir]
+								
+				else:
+					emit_signal("received_input", key, state)
+					
+					if state == InputManager.PRESSED:
+						add_to_input_buffer(key)
+						check_input_chains(key)
+				
+#				if state == InputManager.RELEASED:
 #					if held_keys.has(key):
-#						set_physics_process(true)
-					
-					add_to_input_buffer(key)
-					check_input_chains(key)
-				
-				if remember_last_input_direction:
-					if key == InputManager.LEFT or InputManager.RIGHT or InputManager.UP or InputManager.DOWN:
-						last_input_direction = key
-				
-				if state == InputManager.RELEASED:
-					if held_keys.has(key):
-						if held_keys[key] > key_hold_window:
-							emit_signal("received_input", key + "_held", InputManager.PRESSED)
-#						held_keys.erase(key)
-						held_keys[key] = 0
-						set_physics_process(false)
+#						if held_keys[key] > key_hold_window:
+#							emit_signal("received_input", key + "_held", InputManager.PRESSED)
+#						held_keys[key] = 0
+#						set_physics_process(false)
 						
-					if last_multiple_input != null:
-						if last_multiple_input_combination.has(key):
-							emit_signal("received_input", last_multiple_input, InputManager.RELEASED)
-							last_multiple_input = null
-							last_multiple_input_combination = null
+#					if last_multiple_input != null:
+#						if last_multiple_input_combination.has(key):
+#							emit_signal("received_input", last_multiple_input, InputManager.RELEASED)
+#							last_multiple_input = null
+#							last_multiple_input_combination = null
 
 func _received_multiple_input(pad, key, key_combination):
 	if enabled and not get_tree().paused:
@@ -159,17 +167,30 @@ func check_input_chains(key):
 				add_to_input_buffer(c)
 				emit_signal("received_input", c, InputManager.PRESSED)
 
+func get_reverse(dir):
+	if reverse_left_right:
+		dir.x = -dir.x
+	if reverse_up_down:
+		dir.y = -dir.y
+	return dir
+
 func is_key_pressed(key):
 	if enabled:
 		for n in listen_to_pads:
-			return InputManager.pressed(key, n)
+			if InputManager.get_direction(key) != null:
+				return InputManager.pressed(InputManager.DIRECTIONS_TO_KEYS[get_reverse(InputManager.KEY_TO_DIRECTIONS[key])], n)
+			else:
+				return InputManager.pressed(key, n)
 	else:
 		return false
 
 func is_key_released(key):
 	if enabled:
 		for n in listen_to_pads:
-			return InputManager.released(key, n)
+			if InputManager.get_direction(key) != null:
+				return InputManager.released(InputManager.DIRECTIONS_TO_KEYS[get_reverse(InputManager.KEY_TO_DIRECTIONS[key])], n)
+			else:
+				return InputManager.released(key, n)
 	else:
 		return false
 

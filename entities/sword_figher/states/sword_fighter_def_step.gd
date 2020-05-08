@@ -11,11 +11,11 @@ func get_animation_data():
 func _enter_state():
 	if entity.input_listener.last_input_direction == InputManager.LEFT:
 		entity.set_animation("def_step_l", 0, -1.0)
-	if entity.input_listener.last_input_direction == InputManager.RIGHT:
+	elif entity.input_listener.last_input_direction == InputManager.RIGHT:
 		entity.set_animation("def_step_r", 0, -1.0)
-	if entity.input_listener.last_input_direction == InputManager.UP:
+	elif entity.input_listener.last_input_direction == InputManager.UP:
 		entity.set_animation("def_step_f", 0, -1.0)
-	if entity.input_listener.last_input_direction == InputManager.DOWN:
+	elif entity.input_listener.last_input_direction == InputManager.DOWN:
 		entity.set_animation("def_step_b", 0, -1.0)
 #	._enter_state()
 

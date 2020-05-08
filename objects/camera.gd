@@ -1,22 +1,30 @@
 extends InterpolatedCamera
 
-#export(NodePath) var look_at_target
-#onready var node_to_look_at = get_node(look_at_target)
+export var default_speed = 10
+onready var tracked_entity = get_node(target).owner
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	tracked_entity.has_camera = true
+	reset_speed()
 
-#var t = 0
+func _on_sword_fighter_requested_camera(entity):
+	$AnimationPlayer.play("switch_player")
+	$AnimationPlayer.advance(0)
+#	get_tree().paused = true
+	tracked_entity.has_camera = false
+	tracked_entity = entity
+	tracked_entity.has_camera = true
+	target = entity.get_node("CameraPointPivot/Position3D").get_path()
+#	speed = 3
+#	$Timer.start()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-##	look_at(node_to_look_at.global_transform.origin, Vector3.UP)
-#	if rotation.angle_to(node_to_look_at.global_transform.origin) > 10:
-##		rotate(Vector3.UP, rotation.angle_to(node_to_look_at.global_transform.origin))
-#		t += delta * 0.1
-#		var rot = lerp(rotation.y, translation.direction_to(node_to_look_at.global_transform.origin).y, t)
-#		rotation = Vector3(0, rot + 1, 0)
-#	else:
-#		t = 0
-#	pass
+func _on_Timer_timeout():
+	speed = default_speed
+	get_tree().paused = false
+
+func set_pause(value):
+	get_tree().paused = value
+
+func reset_speed():
+	speed = default_speed

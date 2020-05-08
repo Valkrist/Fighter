@@ -2,7 +2,7 @@
 
 [ext_resource path="res://stages/stage_env.tres" type="Environment" id=1]
 [ext_resource path="res://entities/sword_figher/sword_fighter.tscn" type="PackedScene" id=2]
-[ext_resource path="res://objects/camera.gd" type="Script" id=3]
+[ext_resource path="res://objects/interpolated_camera.tscn" type="PackedScene" id=3]
 [ext_resource path="res://objects/test_material.material" type="Material" id=4]
 [ext_resource path="res://ui/lifebar/lifebar.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/input_display/input_display.tscn" type="PackedScene" id=6]
@@ -114,14 +114,6 @@ transform = Transform( -0.260195, -0.418308, 0.87024, -0.0376866, 0.904996, 0.42
 light_energy = 1.5
 shadow_enabled = true
 
-[node name="InterpolatedCamera" type="InterpolatedCamera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 6.77238 )
-current = true
-target = NodePath("../sword_fighter/CameraPointPivot/Position3D")
-speed = 10.0
-enabled = true
-script = ExtResource( 3 )
-
 [node name="Bounds" type="Spatial" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 
@@ -222,11 +214,11 @@ playback_process_mode = 0
 "anims/New Anim (2)" = SubResource( 4 )
 
 [node name="sword_fighter" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.443218, 3.8915 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5 )
 target = NodePath("../sword_fighter2")
 
 [node name="sword_fighter2" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96295e-07, 0, -2.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5 )
 target = NodePath("../sword_fighter")
 
 [node name="InputListener" parent="sword_fighter2" index="1"]
@@ -236,14 +228,21 @@ reverse_left_right = true
 [node name="AnimationTree" parent="sword_fighter2" index="4"]
 tree_root = SubResource( 12 )
 
+[node name="Skeleton" parent="sword_fighter2/ModelContainer/sword_fighter/Armature" index="0"]
+bones/6/bound_children = [  ]
+
 [node name="Cube" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="0"]
 material/0 = SubResource( 13 )
 
 [node name="sword" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="1"]
 material/0 = SubResource( 13 )
 
+[node name="InterpolatedCamera" parent="." instance=ExtResource( 3 )]
+transform = Transform( -0.00497429, -0.459186, 0.888326, 0, 0.888337, 0.459192, -0.999988, 0.00228415, -0.00441884, 5.30534, 3.75645, -0.193563 )
+target = NodePath("../sword_fighter/CameraPointPivot/Position3D")
+
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.7, 0 )
+transform = Transform( -0.00497429, -0.459186, 0.888326, 0, 0.888337, 0.459192, -0.999988, 0.00228415, -0.00441884, 6.37551, 4.30964, -0.198887 )
 visible = false
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
@@ -251,7 +250,9 @@ transform = Transform( 0.31253, 0, 0, 0, 0.31253, 0, 0, 0, 0.31253, 0, -0.257058
 mesh = SubResource( 14 )
 material/0 = null
 [connection signal="hp_changed" from="sword_fighter" to="Lifebar" method="_on_sword_fighter_hp_changed"]
+[connection signal="requested_camera" from="sword_fighter" to="InterpolatedCamera" method="_on_sword_fighter_requested_camera"]
 [connection signal="hp_changed" from="sword_fighter2" to="Lifebar2" method="_on_sword_fighter_hp_changed"]
+[connection signal="requested_camera" from="sword_fighter2" to="InterpolatedCamera" method="_on_sword_fighter_requested_camera"]
 
 [editable path="Lifebar2"]
 

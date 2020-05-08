@@ -8,6 +8,20 @@ enum {
 
 const RETICLE_CONTROL_STRINGS = {0 : "Joystick", 1 : "Mouse", 2 : "D-pad"}
 
+const KEY_TO_DIRECTIONS = {
+	UP : Vector2.UP,
+	DOWN : Vector2.DOWN,
+	LEFT : Vector2.LEFT,
+	RIGHT : Vector2.RIGHT,
+	}
+	
+const DIRECTIONS_TO_KEYS = {
+	Vector2.UP : UP,
+	Vector2.DOWN : DOWN,
+	Vector2.LEFT : LEFT,
+	Vector2.RIGHT : RIGHT,
+	}
+
 onready var pad_0_device = preload("res://settings.tres").pad_0_device
 onready var pad_1_device = preload("res://settings.tres").pad_1_device
 onready var keyboard_pad = preload("res://settings.tres").keyboard_pad
@@ -286,3 +300,9 @@ func pressed(key, pad):
 
 func released(key, pad):
 	return pads[pad][key] == RELEASED
+
+func get_direction(key):
+	if KEY_TO_DIRECTIONS.has(key):
+		return KEY_TO_DIRECTIONS[key]
+	else:
+		return null
