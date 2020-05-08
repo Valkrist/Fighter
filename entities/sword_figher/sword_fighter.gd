@@ -283,7 +283,7 @@ func tween_camera_position(position):
 	$Tween.interpolate_property(
 		$CameraPointPivot/Position3D, "translation",
 		camera_point.translation, Vector3(position, camera_point.translation.y, camera_point.translation.z), 1,
-		Tween.TRANS_QUAD, Tween.EASE_OUT)
+		Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	if position != 0:
 		camera_side = sign(position)
 #	$Tween.interpolate_property(
@@ -304,9 +304,15 @@ func _on_Hitbox_dealt_hit(hit, collided_entity):
 func _on_RSide_body_entered(body):
 	if not body == self and body is KinematicBody:
 		if body.get_current_animation() == "run_loop":
-			request_camera(-1)
+			if has_camera:
+				body.request_camera(-1)
+			else:
+				request_camera(-1)
 
 func _on_LSide_body_entered(body):
 	if not body == self and body is KinematicBody:
 		if body.get_current_animation() == "run_loop":
-			request_camera(1)
+			if has_camera:
+				body.request_camera(1)
+			else:
+				request_camera(1)

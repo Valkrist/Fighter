@@ -2,14 +2,16 @@ extends Control
 
 export var listen_to_pad = 0
 
-var buttons = [
-	InputManager.LIGHT,
-	InputManager.HEAVY,
-	InputManager.GUARD,
-	InputManager.SPECIAL,
-	InputManager.STANCE,
-	InputManager.START,
-	]
+onready var buttons = {
+	InputManager.LIGHT : get_node("Control/UIButton4/Button"),
+	InputManager.HEAVY : get_node("Control/UIButton5/Button"),
+	InputManager.GUARD : get_node("Control/UIButton6/Button"),
+	InputManager.SPECIAL : get_node("Control/UIButton7/Button"),
+	InputManager.STANCE : get_node("Control/UIButton8/Button"),
+	InputManager.START : get_node("Control/UIButton12/Button"),
+	}
+
+var button_colors = {}
 
 var stick = [
 	InputManager.UP,
@@ -30,6 +32,8 @@ var direction = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	InputManager.connect("key_changed", self, "received_input")
+	for button in buttons.keys():
+		button_colors[button] = buttons[button].modulate
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -39,13 +43,18 @@ func received_input(pad, key, state):
 	if pad == listen_to_pad:
 		if state:
 			if buttons.has(key):
-				$Control.get_node(str(key)).modulate = Color.darkgray
+				buttons[key].modulate = button_colors[key].darkened(0.3)
 			if stick.has(key):
 				direction += dir_keys[key]
-				$Control/StickContainer/Stick.position = direction * 32
+				$Control/StickContainer/Stick.position = direction.normalized() * 48
+				$Control/StickContainer/StickBase.visible = true
+				$Control/StickContainer/StickBase.rotation = atan2(direction.y, direction.x) + PI * 0.5
 		else:
 			if buttons.has(key):
-				$Control.get_node(str(key)).modulate = Color.white
+				buttons[key].modulate = button_colors[key]
 			if stick.has(key):
 				direction -= dir_keys[key]
-				$Control/StickContainer/Stick.position = direction * 32
+				$Control/StickContainer/Stick.position = direction.normalized() * 48
+				if direction == Vector2.ZERO:
+					$Control/StickContainer/StickBase.visible = false
+				$Control/StickContainer/StickBase.rotation = atan2(direction.y, direction.x) + PI * 0.5
