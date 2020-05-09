@@ -35,6 +35,9 @@ func _input(event):
 				get_tree().paused = true
 			else:
 				get_tree().paused = true
+				
+		elif event.is_action("debug_cancel_frame_advance"):
+			get_tree().paused = false
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS

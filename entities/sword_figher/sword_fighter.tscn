@@ -12,7 +12,7 @@
 [ext_resource path="res://entities/sword_figher/sword_fighter_hit_info.gd" type="Script" id=10]
 [ext_resource path="res://objects/hurtbox.tscn" type="PackedScene" id=11]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CapsuleShape" id=15]
 radius = 0.558514
 height = 2.0
 
@@ -553,7 +553,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=48]
 length = 0.833333
 
 [sub_resource type="Animation" id=16]
@@ -1672,7 +1672,8 @@ albedo_color = Color( 1, 0.294118, 0.294118, 1 )
 [sub_resource type="RayShape" id=47]
 length = 3.0
 
-[node name="sword_fighter" type="KinematicBody"]
+[node name="SwordFighter" type="KinematicBody"]
+collision_mask = 3
 script = ExtResource( 2 )
 default_ground_drag = 15
 
@@ -1694,7 +1695,7 @@ no_root_motion_to_speed = true
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.55842, 0 )
-shape = SubResource( 1 )
+shape = SubResource( 15 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = ExtResource( 6 )
@@ -1724,7 +1725,7 @@ anims/jump_land = SubResource( 11 )
 anims/jump_start = SubResource( 12 )
 anims/off_block_hi = SubResource( 13 )
 anims/off_block_low = SubResource( 14 )
-anims/off_h_r_0001 = SubResource( 15 )
+anims/off_h_r_0001 = SubResource( 48 )
 anims/off_h_r_1 = SubResource( 16 )
 anims/off_h_r_heavy = SubResource( 17 )
 anims/off_hi_fierce = SubResource( 18 )
@@ -1763,6 +1764,9 @@ anims/walk = SubResource( 45 )
 
 [node name="sword_fighter" parent="ModelContainer" instance=ExtResource( 1 )]
 transform = Transform( -0.6, 0, -9.05975e-08, 0, 0.6, 0, 9.05975e-08, 0, -0.6, 0, 0, 0 )
+
+[node name="Skeleton" parent="ModelContainer/sword_fighter/Armature" index="0"]
+bones/6/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="Cube" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="0"]
 material/0 = SubResource( 46 )

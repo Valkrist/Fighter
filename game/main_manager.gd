@@ -43,19 +43,19 @@ func connect_signal(origin_object, signal_name, target_object, target_function):
 		origin_object.connect(signal_name, target_object, target_function)
 
 # Pause game when out of focus
-func _notification(what : int) -> void:
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
-		print("focus in")
-		if current_level != null:
-			current_level.focus_in()
-		get_tree().paused = false
-#		InputManager.reset_pads()
-#		InputManager.emit_released_signal()
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
-		print("focus out")
-		if current_level != null:
-			current_level.focus_out()
-		get_tree().paused = true
+#func _notification(what : int) -> void:
+#	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
+#		print("focus in")
+#		if current_level != null:
+#			current_level.focus_in()
+#		get_tree().paused = false
+##		InputManager.reset_pads()
+##		InputManager.emit_released_signal()
+#	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+#		print("focus out")
+#		if current_level != null:
+#			current_level.focus_out()
+#		get_tree().paused = true
 
 #func _input(event : InputEvent) -> void:
 #	if event.is_action_pressed("ui_exit"):

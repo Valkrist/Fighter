@@ -1,0 +1,321 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://entities/sword_figher/peer_sword_fighter.gd" type="Script" id=1]
+[ext_resource path="res://entities/sword_figher/model/sword_fighter.glb" type="PackedScene" id=2]
+
+[sub_resource type="AnimationNodeBlend2" id=1]
+
+[sub_resource type="AnimationNodeTimeSeek" id=2]
+
+[sub_resource type="AnimationNodeTimeScale" id=3]
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "off_block_hi"
+
+[sub_resource type="AnimationNodeTimeSeek" id=5]
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "off_walk_back"
+
+[sub_resource type="AnimationNodeTimeSeek" id=7]
+
+[sub_resource type="AnimationNodeBlendTree" id=8]
+graph_offset = Vector2( 190, -106 )
+nodes/1_and_-1/node = SubResource( 1 )
+nodes/1_and_-1/position = Vector2( 820, -40 )
+nodes/Seek/node = SubResource( 2 )
+nodes/Seek/position = Vector2( 1060, 0 )
+nodes/TimeScale/node = SubResource( 3 )
+nodes/TimeScale/position = Vector2( 1180, 0 )
+nodes/animation_-1/node = SubResource( 4 )
+nodes/animation_-1/position = Vector2( 420, 40 )
+nodes/animation_-1_seek/node = SubResource( 5 )
+nodes/animation_-1_seek/position = Vector2( 620, 40 )
+nodes/animation_1/node = SubResource( 6 )
+nodes/animation_1/position = Vector2( 420, -80 )
+nodes/animation_1_seek/node = SubResource( 7 )
+nodes/animation_1_seek/position = Vector2( 620, -80 )
+nodes/output/position = Vector2( 1340, 0 )
+node_connections = [ "output", 0, "TimeScale", "1_and_-1", 0, "animation_1_seek", "1_and_-1", 1, "animation_-1_seek", "Seek", 0, "1_and_-1", "TimeScale", 0, "Seek", "animation_-1_seek", 0, "animation_-1", "animation_1_seek", 0, "animation_1" ]
+
+[sub_resource type="Animation" id=9]
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimationTree:parameters/1_and_-1/blend_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=10]
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimationTree:parameters/anim_and_space/blend_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=11]
+step = 0.0166667
+tracks/0/type = "animation"
+tracks/0/path = NodePath("ModelContainer/sword_fighter/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"clips": PoolStringArray( "offensive_stance" ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationTree:parameters/attack/blend_amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimationTree:parameters/Seek/seek_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimationTree:parameters/stand_walk/blend_amount")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.183333 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AnimationTree:parameters/stand_seek/seek_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 1.16667
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../AnimationFlags:is_evade_cancelable")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.916667 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../AnimationFlags:is_stringable")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.583333 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ true ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.16667 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "off_h_r_heavy" ],
+"method": "animation_finished"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../../AnimationFlags:is_cancelable")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.983333 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../../AnimationFlags:no_root_motion_to_speed")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 1.16667
+step = 0.0166667
+tracks/0/type = "animation"
+tracks/0/path = NodePath("ModelContainer/sword_fighter/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "off_hi_fierce" ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=14]
+step = 0.0166667
+tracks/0/type = "animation"
+tracks/0/path = NodePath("ModelContainer/sword_fighter/AnimationPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "offensive_stance" ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationTree:parameters/attack/blend_amount")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimationTree:parameters/Seek/seek_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimationTree:parameters/stand_walk/blend_amount")
+tracks/3/interp = 1
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AnimationTree:parameters/walk_seek/seek_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = false
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+
+[sub_resource type="CapsuleShape" id=15]
+radius = 0.558514
+height = 2.0
+
+[node name="PeerSwordFighter" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 8 )
+anim_player = NodePath("../ModelContainer/sword_fighter/AnimationPlayer")
+process_mode = 0
+root_motion_track = NodePath("Armature/Skeleton:root")
+parameters/1_and_-1/blend_amount = 0.0
+parameters/Seek/seek_position = -1.0
+parameters/TimeScale/scale = 1.0
+parameters/animation_-1_seek/seek_position = -1.0
+parameters/animation_1_seek/seek_position = -1.0
+
+[node name="AnimationBlender" type="AnimationPlayer" parent="."]
+anims/blend_animation_1_animation_-1 = SubResource( 9 )
+anims/blend_animation_and_space = SubResource( 10 )
+anims/idle = SubResource( 11 )
+"anims/off_h_r_heavy (copy)" = SubResource( 12 )
+anims/off_hi_heavy = SubResource( 13 )
+anims/walk = SubResource( 14 )
+
+[node name="ModelContainer" type="Spatial" parent="."]
+
+[node name="sword_fighter" parent="ModelContainer" instance=ExtResource( 2 )]
+transform = Transform( -0.6, 0, -9.05975e-08, 0, 0.6, 0, 9.05975e-08, 0, -0.6, 0, 0, 0 )
+
+[node name="CameraPointPivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
+
+[node name="Position3D" type="Position3D" parent="CameraPointPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.6, 1.5 )
+
+[node name="Tween" type="Tween" parent="."]
+playback_speed = 3.0
+playback/speed = 3.0
+
+[node name="StaticBody" type="StaticBody" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.55842, 0 )
+shape = SubResource( 15 )
+__meta__ = {
+"_editor_description_": ""
+}

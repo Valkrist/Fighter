@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource( 1 )
 I_N_P_U_T = ""
-pad_0_device = 0
-pad_1_device = 1
+pad_0_device = 1
+pad_1_device = 0
 keyboard_pad = 0
 reticle_control = 1
 D_I_S_P_L_A_Y = ""

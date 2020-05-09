@@ -39,7 +39,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Fighter"
-run/main_scene="res://stages/stage.tscn"
+run/main_scene="res://game/multiplayer/lobby.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -47,6 +47,7 @@ config/icon="res://icon.png"
 MainManager="*res://game/main_manager.gd"
 InputManager="*res://game/input_manager.gd"
 DisplayManager="*res://game/display_manager.gd"
+NetworkManager="*res://game/network_manager.gd"
 DebugManager="*res://game/debug_manager.gd"
 
 [debug]
@@ -81,7 +82,12 @@ debug_visible_collisions={
 }
 debug_frame_advance={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777247,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":49,"unicode":0,"echo":false,"script":null)
+ ]
+}
+debug_cancel_frame_advance={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":50,"unicode":0,"echo":false,"script":null)
  ]
 }
 

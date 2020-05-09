@@ -40,7 +40,6 @@ onready var default_camera_pos = $CameraPointPivot/Position3D.translation
 onready var model_container = $ModelContainer
 onready var anim_tree = $AnimationTree
 onready var anim_player = $ModelContainer/sword_fighter/AnimationPlayer
-onready var anim_state_machine = $AnimationTree.get("parameters/StateMachine/playback")
 onready var fsm = $FSM
 onready var flags = $AnimationFlags
 
@@ -200,7 +199,6 @@ func apply_root_motion(delta):
 #	print(-anim_tree.get_root_motion_transform().origin)
 	pass
 
-
 func get_current_animation():
 	return $AnimationEvents.assigned_animation
 
@@ -241,6 +239,9 @@ func set_animation(anim_name, seek_pos, blend_speed):
 #			"to", anim_tree.tree_root.get_node("animation_0").animation)
 
 	animation_slot = -animation_slot
+	
+	#NETWORK
+	NetworkManager.rpc("animation_changed", get_tree().network_peer.get_unique_id(), anim_name, seek_pos, blend_speed)
 
 func is_blending():
 	return $AnimationBlender.is_playing()
