@@ -97,7 +97,7 @@ func build_hit(area):
 #				return
 	
 #	new_hit.position = global_transform.origin
-	new_hit.source = entity
+#	new_hit.source = entity
 	
 	# Check hit
 	if collided_hurtbox.hit_type_invulnerability != Hit.EVASION_TYPES.NONE:

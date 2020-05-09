@@ -16,8 +16,8 @@ func get_animation_data():
 #func _process_state(delta):
 #	entity.apply_root_motion(delta)
 
-func _dealt_hit(collided_entity):
-	entity.request_camera(-sign(collided_entity.camera_point.translation.x))
+#func _dealt_hit(collided_entity):
+#	entity.request_camera(-sign(collided_entity.camera_point.translation.x))
 
 ##func _animation_blend_started(anim_name):
 ##	print(anim_name)

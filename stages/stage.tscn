@@ -6,6 +6,7 @@
 [ext_resource path="res://objects/test_material.material" type="Material" id=4]
 [ext_resource path="res://ui/lifebar/lifebar.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/input_display/input_display.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/sword_figher/sword_fighter_player_2.material" type="Material" id=7]
 
 [sub_resource type="CylinderMesh" id=1]
 material = ExtResource( 4 )
@@ -74,10 +75,6 @@ nodes/animation_1_seek/node = SubResource( 12 )
 nodes/animation_1_seek/position = Vector2( 620, -80 )
 nodes/output/position = Vector2( 1340, 0 )
 node_connections = [ "output", 0, "TimeScale", "1_and_-1", 0, "animation_1_seek", "1_and_-1", 1, "animation_-1_seek", "Seek", 0, "1_and_-1", "TimeScale", 0, "Seek", "animation_-1_seek", 0, "animation_-1", "animation_1_seek", 0, "animation_1" ]
-
-[sub_resource type="SpatialMaterial" id=14]
-flags_vertex_lighting = true
-albedo_color = Color( 0.176471, 0.556863, 1, 1 )
 
 [sub_resource type="CubeMesh" id=15]
 
@@ -236,17 +233,14 @@ reverse_left_right = true
 [node name="AnimationTree" parent="sword_fighter2" index="4"]
 tree_root = SubResource( 13 )
 
+[node name="Skeleton" parent="sword_fighter2/ModelContainer/sword_fighter/Armature" index="0"]
+bones/6/bound_children = [  ]
+
 [node name="Cube" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="0"]
-material/0 = SubResource( 14 )
+material/0 = ExtResource( 7 )
 
 [node name="sword" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="1"]
-material/0 = SubResource( 14 )
-
-[node name="BoneAttachment" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 0.12379, -0.336002, -0.933691, -0.270738, 0.893793, -0.357539, 0.95466, 0.297046, 0.0196746, 0.114741, 1.59925, -0.447376 )
-
-[node name="AnimationPlayer" parent="sword_fighter2/ModelContainer/sword_fighter" index="1"]
-blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
+material/0 = ExtResource( 7 )
 
 [node name="InterpolatedCamera" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.00497429, -0.459186, 0.888326, 0, 0.888337, 0.459192, -0.999988, 0.00228415, -0.00441884, 5.30534, 3.75645, -0.193563 )

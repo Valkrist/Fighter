@@ -7,6 +7,8 @@ signal requested_camera(entity)
 
 enum Stances {OFFENSIVE, DEFENSIVE, UNIQUE}
 const TERMINAL_VELOCITY = -50
+const PLAYER_1_MATERIAL = preload("res://entities/sword_figher/sword_fighter_player_1.material")
+const PLAYER_2_MATERIAL = preload("res://entities/sword_figher/sword_fighter_player_2.material")
 
 export(NodePath) var target
 export var walk_speed = 3
@@ -16,6 +18,7 @@ export var default_tracking_speed = 20
 export var tracking_speed = 20
 export var max_hp = 1000
 
+var player_side = 0
 var hp = 1000 setget set_hp
 var received_hit : Hit
 var has_camera = false setget set_has_camera
@@ -40,12 +43,16 @@ onready var default_camera_pos = $CameraPointPivot/Position3D.translation
 onready var model_container = $ModelContainer
 onready var anim_tree = $AnimationTree
 onready var anim_player = $ModelContainer/sword_fighter/AnimationPlayer
+onready var animation_blender = $AnimationBlender
 onready var fsm = $FSM
 onready var flags = $AnimationFlags
 
 func set_hp(value):
 	hp = clamp(value, 0, max_hp)
 	emit_signal("hp_changed", hp)
+	
+	if get_tree().has_network_peer():
+		NetworkManager.rpc("update_my_hp_on_peers", NetworkManager.get_my_id(), hp)
 
 func set_has_camera(value):
 	has_camera = value
@@ -60,24 +67,23 @@ func get_direction():
 	return model_container.transform.basis.get_euler()
 
 func _ready():
+	if get_tree().has_network_peer():
+		NetworkManager.connect("peer_dealt_hit", self, "receive_hit_from_peer")
+		if get_tree().is_network_server():
+			transform = get_node("../Player1Pos").transform
+			connect("hp_changed", get_node("../Lifebar"), "_on_sword_fighter_hp_changed")
+			$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_1_MATERIAL
+			$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_1_MATERIAL
+			get_node("../PlayerName1").text = NetworkManager.my_info["name"]
+		else:
+			transform = get_node("../Player2Pos").transform
+			connect("hp_changed", get_node("../Lifebar2"), "_on_sword_fighter_hp_changed")
+			$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_2_MATERIAL
+			$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_2_MATERIAL
+			get_node("../PlayerName2").text = NetworkManager.my_info["name"]
+	
 	fsm.setup()
 	$AnimationTree.active = true
-	
-#	Engine.time_scale = 0.25
-	
-	# HACK: Add one second to all animations that don't loop so that function calls at the end
-	# of the animation are only processed once. AnimationPlayers that are contolled by an
-	# AnimationTree will not emit signals and repeat the last frames of the animation while blending
-	# (engine bug?).
-#	for anim_name in anim_player.get_animation_list():
-#		if not anim_player.get_animation(anim_name).loop:
-#			anim_player.get_animation(anim_name).length += 1.0
-	
-#	lock_on_target = get_node(target)
-#	pass # Replace with function body.
-#	print(anim_tree.tree_root.get_node("attack_anim").animation)
-#	anim_tree.tree_root.get_node("attack_anim").animation = "off_hi_r_light"
-#	print(anim_tree.tree_root.get_node("walk_blend").get_blend_point_count())
 
 func _on_InputListener_received_input(key, state):
 	fsm.receive_event("_received_input", [key, state])
@@ -87,9 +93,6 @@ func _on_InputListener_received_input(key, state):
 var count = 0
 
 func _physics_process(delta):
-#	if $ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment/SwordHitbox.active:
-#		print($ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment/SwordHitbox.get_overlapping_areas())
-	
 	target_point = lock_on_target.global_transform.origin
 #	target_point = Vector3(target_point.x, 1.5, target_point.z)
 	
@@ -155,6 +158,11 @@ func _physics_process(delta):
 #	count += 1
 
 	fsm._process_current_state(delta, true)
+	
+	#NET:
+	if get_tree().has_network_peer():
+		NetworkManager.rpc_unreliable("update_my_transform_on_peers", NetworkManager.get_my_id(),
+			transform)
 
 func set_velocity(_velocity):
 	velocity = _velocity.rotated(Vector3.UP, model_container.rotation.y)
@@ -166,7 +174,11 @@ func apply_tracking(delta):
 	var current_rot = model_container.rotation.y
 	model_container.rotation.y = lerp_angle(current_rot, target_rotation, delta * tracking_speed)
 #	model_container.rotation.y = target_rotation
-	pass
+	
+	if get_tree().has_network_peer():
+		NetworkManager.rpc_unreliable("update_my_rotation_on_peers", NetworkManager.get_my_id(),
+			model_container.rotation.y)
+		pass
 
 func apply_drag(delta):
 	if velocity.length_squared() < 0.05:
@@ -218,40 +230,42 @@ func set_animation(anim_name, seek_pos, blend_speed):
 
 	# Blend animations:
 
-	if $AnimationBlender.is_playing():
-		$AnimationBlender.stop(false)
-#		print($AnimationBlender.current_animation_position)
+	if animation_blender.is_playing():
+		animation_blender.stop(false)
+#		print(animation_blender.current_animation_position)
 
 	if animation_slot == 1:
 		if blend_speed == -1.0:
 			anim_tree["parameters/1_and_-1/blend_amount"] = 1.0
 			pass
 		else:
-			$AnimationBlender.play("blend_animation_1_animation_-1", -1, blend_speed)
+			animation_blender.play("blend_animation_1_animation_-1", -1, blend_speed)
 #			prints("start blending from slot 0", anim_tree.tree_root.get_node("animation_0").animation,
 #			"to", anim_tree.tree_root.get_node("animation_1").animation)
 	else:
 		if blend_speed == -1.0:
 			anim_tree["parameters/1_and_-1/blend_amount"] = 0.0
 		else:
-			$AnimationBlender.play("blend_animation_1_animation_-1", -1, -blend_speed, true)
+			animation_blender.play("blend_animation_1_animation_-1", -1, -blend_speed, true)
 #			prints("start blending from slot 1", anim_tree.tree_root.get_node("animation_1").animation,
 #			"to", anim_tree.tree_root.get_node("animation_0").animation)
 
 	animation_slot = -animation_slot
 	
 	#NETWORK
-	NetworkManager.rpc("animation_changed", get_tree().network_peer.get_unique_id(), anim_name, seek_pos, blend_speed)
+	if get_tree().has_network_peer():
+		NetworkManager.rpc("update_my_animation_on_peers", NetworkManager.get_my_id(),
+			anim_name, seek_pos, blend_speed)
 
 func is_blending():
-	return $AnimationBlender.is_playing()
+	return animation_blender.is_playing()
 
 func start_blend_with_space(backwards):
 	fsm.receive_event("_animation_blend_started", "asd")
 	if not backwards:
-		$AnimationBlender.play("blend_animation_and_space", -1, 5.0)
+		animation_blender.play("blend_animation_and_space", -1, 5.0)
 	else:
-		$AnimationBlender.play("blend_animation_and_space", -1, -5.0, true)
+		animation_blender.play("blend_animation_and_space", -1, -5.0, true)
 
 func _on_AnimationBlender_animation_finished(anim_name):
 	pass # Replace with function body.
@@ -304,9 +318,11 @@ func _on_Hurtbox_received_hit(hit, hurtbox):
 	received_hit = hit
 	fsm.receive_event("_received_hit", hit)
 
-func _on_Hitbox_dealt_hit(hit, collided_entity):
-	fsm.receive_event("_dealt_hit", collided_entity) 
-	pass # Replace with function body.
+func _on_Hitbox_dealt_hit(hit : Hit, collided_entity):
+	fsm.receive_event("_dealt_hit", collided_entity)
+	
+	if collided_entity is PeerEntity:
+		send_hit_to_peer(hit)
 
 func _on_RSide_body_entered(body):
 	if not body == self and body is KinematicBody:
@@ -323,3 +339,22 @@ func _on_LSide_body_entered(body):
 				body.request_camera(1)
 			else:
 				request_camera(1)
+
+# NETWORKIG
+func send_hit_to_peer(hit):
+	var hit_data = {
+		"name" : hit.name,
+		"damage" : hit.damage,
+		"knockback" : hit.knockback,
+		"direction" : hit.direction,
+#		"position" : hit.position,
+		}
+	NetworkManager.rpc("notify_hit_on_peers", NetworkManager.get_my_id(), hit_data)
+
+func receive_hit_from_peer(id, hit_data):
+	var new_hit = Hit.new(Hit.INIT_TYPE.DEFAULT)
+	for key in hit_data:
+		new_hit.set(key, hit_data[key])
+		
+	received_hit = new_hit
+	fsm.receive_event("_received_hit", new_hit)
