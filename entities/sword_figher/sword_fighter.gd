@@ -81,6 +81,8 @@ func _ready():
 			$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_2_MATERIAL
 			$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_2_MATERIAL
 			get_node("../PlayerName2").text = NetworkManager.my_info["name"]
+		
+		NetworkManager.rpc("notify_ready")
 	
 	fsm.setup()
 	$AnimationTree.active = true
@@ -314,6 +316,10 @@ func tween_camera_position(position):
 		
 	$Tween.start()
 
+func reset_hitboxes():
+	$ModelContainer/Hitbox.active = false
+	$ModelContainer/Hitbox2.active = false
+
 func _on_Hurtbox_received_hit(hit, hurtbox):
 	received_hit = hit
 	fsm.receive_event("_received_hit", hit)
@@ -321,8 +327,9 @@ func _on_Hurtbox_received_hit(hit, hurtbox):
 func _on_Hitbox_dealt_hit(hit : Hit, collided_entity):
 	fsm.receive_event("_dealt_hit", collided_entity)
 	
-	if collided_entity is PeerEntity:
-		send_hit_to_peer(hit)
+	if get_tree().has_network_peer():
+		if collided_entity is PeerEntity:
+			send_hit_to_peer(hit)
 
 func _on_RSide_body_entered(body):
 	if not body == self and body is KinematicBody:

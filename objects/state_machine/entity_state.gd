@@ -96,6 +96,7 @@ func get_sp_cost():
 
 func _exit_state():
 	entity.flags.reset_all_flags()
+	entity.reset_hitboxes()
 	pass
 
 func _received_input(key, state):

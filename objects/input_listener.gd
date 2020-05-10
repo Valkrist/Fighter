@@ -56,10 +56,13 @@ var input_chains ={
 #	"left_gap_closer" : [InputManager.LEFT_LEFT, InputManager.LIGHT],
 	}
 
+export var simulate_input = false
+
 signal received_input(key, state)
 
 func _ready():
 	InputManager.connect("key_changed", self, "_received_input")
+	get_node("../InputSimulator").connect("simulated_input", self, "_received_input")
 #	InputManager.connect("multiple_input_pressed", self, "_received_multiple_input")
 	set_physics_process(false)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://entities/sword_figher/model/sword_fighter.glb" type="PackedScene" id=1]
 [ext_resource path="res://entities/sword_figher/sword_fighter.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://entities/sword_figher/sword_fighter_hit_info.gd" type="Script" id=10]
 [ext_resource path="res://objects/hurtbox.tscn" type="PackedScene" id=11]
 [ext_resource path="res://entities/sword_figher/sword_fighter_player_1.material" type="Material" id=12]
+[ext_resource path="res://entities/sword_figher/input_simulator.gd" type="Script" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.558514
@@ -1669,6 +1670,83 @@ tracks/4/keys = {
 [sub_resource type="RayShape" id=47]
 length = 3.0
 
+[sub_resource type="Animation" id=48]
+resource_name = "New Anim"
+length = 12.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("InputSimulator:up")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3.5, 6.5, 6.6, 6.7, 9.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("InputSimulator:light")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.8, 1.1, 9.5, 9.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("InputSimulator:heavy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2.1, 2.4, 8.1, 8.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("InputSimulator:left")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 3.6, 8.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("InputSimulator:down")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 4.3, 5.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("InputSimulator:right")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 9, 11.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [node name="SwordFighter" type="KinematicBody"]
 collision_mask = 3
 script = ExtResource( 2 )
@@ -1774,6 +1852,7 @@ bone_name = "torso"
 
 [node name="Hurtbox" parent="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment" instance=ExtResource( 11 )]
 transform = Transform( 0.547956, -1.49012e-08, 3.72529e-08, 2.98023e-08, 0.547956, -1.04308e-07, -5.21541e-08, -1.49012e-07, 0.547957, 5.96046e-08, 0.25754, -1.19209e-07 )
+visible = false
 
 [node name="AnimationPlayer" parent="ModelContainer/sword_fighter" index="1"]
 playback_process_mode = 0
@@ -1814,6 +1893,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.6, 1.5 )
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 3.0
 playback/speed = 3.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/New Anim" = SubResource( 48 )
+
+[node name="InputSimulator" type="Node" parent="."]
+script = ExtResource( 13 )
+up = true
 [connection signal="received_input" from="InputListener" to="." method="_on_InputListener_received_input"]
 [connection signal="flag_changed" from="AnimationFlags" to="." method="_on_AnimationFlags_flag_changed"]
 [connection signal="animation_finished" from="AnimationEvents" to="." method="_on_AnimationEvents_animation_finished"]

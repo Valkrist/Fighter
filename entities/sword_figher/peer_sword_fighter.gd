@@ -35,7 +35,6 @@ func update_transform(id, new_transform):
 func update_rotation(id, new_rotation):
 	model_container.rotation.y = new_rotation
 
-
 func update_animation(id, anim_name, seek_pos, blend_speed):
 	
 	if animation_slot == -1:

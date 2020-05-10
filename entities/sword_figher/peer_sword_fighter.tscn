@@ -11,17 +11,17 @@
 [sub_resource type="AnimationNodeTimeScale" id=3]
 
 [sub_resource type="AnimationNodeAnimation" id=4]
-animation = "off_block_hi"
+animation = "t_pose"
 
 [sub_resource type="AnimationNodeTimeSeek" id=5]
 
 [sub_resource type="AnimationNodeAnimation" id=6]
-animation = "off_walk_back"
+animation = "t_pose"
 
 [sub_resource type="AnimationNodeTimeSeek" id=7]
 
 [sub_resource type="AnimationNodeBlendTree" id=8]
-graph_offset = Vector2( 190, -106 )
+graph_offset = Vector2( 0, -72 )
 nodes/1_and_-1/node = SubResource( 1 )
 nodes/1_and_-1/position = Vector2( 820, -40 )
 nodes/Seek/node = SubResource( 2 )
@@ -306,6 +306,7 @@ bone_name = "torso"
 
 [node name="Hurtbox" parent="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment" instance=ExtResource( 3 )]
 transform = Transform( 0.547956, -2.98023e-08, 5.21542e-08, 2.98023e-08, 0.547956, 1.49012e-07, -5.21541e-08, -1.49012e-07, 0.547957, 5.96046e-08, 0.25754, -1.19209e-07 )
+visible = false
 
 [node name="CameraPointPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )

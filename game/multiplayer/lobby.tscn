@@ -62,23 +62,33 @@ __meta__ = {
 }
 
 [node name="Ping" type="Button" parent="."]
-margin_left = 320.0
-margin_top = 112.0
-margin_right = 404.0
-margin_bottom = 132.0
+margin_left = 344.0
+margin_top = 152.0
+margin_right = 428.0
+margin_bottom = 172.0
 disabled = true
 text = "Ping"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StartGame" type="Button" parent="."]
-margin_left = 320.0
-margin_top = 64.0
-margin_right = 448.0
-margin_bottom = 96.0
+[node name="StartNetGame" type="Button" parent="."]
+margin_left = 312.0
+margin_top = 104.0
+margin_right = 452.0
+margin_bottom = 136.0
 disabled = true
-text = "Start Game"
+text = "Start Network Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartSingleGame" type="Button" parent="."]
+margin_left = 312.0
+margin_top = 56.0
+margin_right = 452.0
+margin_bottom = 88.0
+text = "Start Local Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -110,8 +120,30 @@ text = "Peers connected:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 704.0
+margin_top = 64.0
+margin_right = 1024.0
+margin_bottom = 384.0
+text = "Controls:
+
+WASD: Directions / Move
+Left Click: Light Attack
+Right Click: Heavy Attack
+Spacebar: Guard
+Left Ctrl: Swtich Stances
+
+In offensive stance (sword up) doble tap and hold up to run.
+
+In defensive stance (sword in front) doble tap any direction to quickstep."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="Host" to="." method="_on_Host_pressed"]
 [connection signal="pressed" from="Join" to="." method="_on_Join_pressed"]
 [connection signal="pressed" from="Disconnect" to="." method="_on_Disconnect_pressed"]
 [connection signal="pressed" from="Ping" to="." method="_on_Ping_pressed"]
-[connection signal="pressed" from="StartGame" to="." method="_on_StartGame_pressed"]
+[connection signal="pressed" from="StartNetGame" to="." method="_on_StartNetGame_pressed"]
+[connection signal="pressed" from="StartSingleGame" to="." method="_on_StartSingleGame_pressed"]

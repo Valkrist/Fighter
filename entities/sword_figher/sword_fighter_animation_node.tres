@@ -9,12 +9,12 @@
 [sub_resource type="AnimationNodeBlend2" id=4]
 
 [sub_resource type="AnimationNodeAnimation" id=5]
-animation = "off_block_hi"
+animation = "t_pose"
 
 [sub_resource type="AnimationNodeTimeSeek" id=6]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
-animation = "off_walk_back"
+animation = "t_pose"
 
 [sub_resource type="AnimationNodeTimeSeek" id=8]
 

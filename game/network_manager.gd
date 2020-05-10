@@ -40,6 +40,7 @@ func _network_peer_connected(_id):
 	emit_signal("peer_connected", _id)
 
 func _network_peer_disconnected(_id):
+	disconnect_network()
 	peers.erase(_id)
 	emit_signal("peer_disconnected", _id)
 
@@ -50,11 +51,12 @@ func _connected_to_server():
 
 # Callback from SceneTree, only for clients (not server).
 func _connection_failed():
-	get_tree().network_peer = null # Remove peer.
+	disconnect_network()
 	peers.clear()
 	emit_signal("connection_failed")
 
 func _server_disconnected():
+	disconnect_network()
 	peers.clear()
 	emit_signal("server_disconnected")
 
@@ -80,8 +82,11 @@ func join_game(ip):
 func disconnect_network():
 	if get_tree().has_network_peer():
 		get_tree().network_peer.close_connection()
-		get_tree().network_peer = null
 		peers.clear()
+		call_deferred("delete_network_peer")
+
+func delete_network_peer():
+	get_tree().network_peer = null
 
 remote func register_peer(peer_info):
 	var id = get_tree().get_rpc_sender_id()
@@ -90,7 +95,11 @@ remote func register_peer(peer_info):
 
 remotesync func start_game():
 	lobby_scene.visible = false
+	get_tree().paused = true
 	get_tree().root.add_child(NETWORK_STAGE.instance())
+
+remote func notify_ready():
+	get_tree().paused = false
 
 remote func update_my_animation_on_peers(id, anim_name, seek_pos, blend_speed):
 	emit_signal("peer_animation_changed", id, anim_name, seek_pos, blend_speed)

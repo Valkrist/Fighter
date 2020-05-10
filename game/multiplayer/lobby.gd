@@ -1,6 +1,6 @@
 extends Control
 
-const DEFAULT_PORT = 4561 #Don't use under 1024
+const STAGE = preload("res://stages/stage.tscn")
 
 onready var label = $Label
 
@@ -26,7 +26,7 @@ func _ready():
 func _player_connected(_id):
 	if get_tree().is_network_server():
 		label.text = str(_id, " Client connected.")
-		$StartGame.disabled = false
+		$StartNetGame.disabled = false
 	else:
 		label.text = "Connected to server."
 	$Ping.disabled = false
@@ -36,7 +36,7 @@ func _player_disconnected(_id):
 	if get_tree().is_network_server():
 		label.text = str(_id, " Client disconnected.")
 		if NetworkManager.peers.size() == 0:
-			$StartGame.disabled = true
+			$StartNetGame.disabled = true
 	else:
 		# Assuming there are only two people:
 		label.text = "Server disconnected."
@@ -63,6 +63,7 @@ func _server_disconnected():
 	$Disconnect.visible = false
 	$MyName.editable = true
 	$Ping.disabled = true
+	$StartSingleGame.disabled = false
 
 func update_peer_list():
 	$Peers.text = str(NetworkManager.peers)
@@ -75,6 +76,7 @@ func _on_Host_pressed():
 	$Join.visible = false
 	$Disconnect.visible = true
 	$MyName.editable = false
+	$StartSingleGame.disabled = true
 	label.text = "Waitin' fo playa'..."
 
 func _on_Join_pressed():
@@ -88,6 +90,7 @@ func _on_Join_pressed():
 		$Join.visible = false
 		$Disconnect.visible = true
 		$MyName.editable = false
+		$StartSingleGame.disabled = true
 		label.text = "Waitin' fo serva'..."
 
 func _on_Disconnect_pressed():
@@ -98,6 +101,7 @@ func _on_Disconnect_pressed():
 		$Disconnect.visible = false
 		$MyName.editable = true
 		$Ping.disabled = true
+		$StartSingleGame.disabled = false
 		update_peer_list()
 		label.text = "Disconnected."
 	else:
@@ -121,7 +125,7 @@ remote func ping(id):
 remote func ping_back(id):
 	label.text = str(NetworkManager.peers[id]["name"], " Pinged back.")
 
-func _on_StartGame_pressed():
+func _on_StartNetGame_pressed():
 	if get_tree().has_network_peer():
 		if NetworkManager.peers.size() == 0:
 			label.text = "No peers to start game with."
@@ -129,4 +133,8 @@ func _on_StartGame_pressed():
 			NetworkManager.rpc("start_game")
 	else:
 		label.text = "No connections active."
-		
+
+func _on_StartSingleGame_pressed():
+	NetworkManager.disconnect_network()
+	visible = false
+	get_tree().root.add_child(STAGE.instance())
