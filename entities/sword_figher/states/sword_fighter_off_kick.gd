@@ -18,7 +18,7 @@ func get_animation_data():
 
 func _dealt_hit(collided_entity):
 	# FIX THIS CAQUEADA
-	if not NetworkManager.get_tree().has_network_peer():
+	if not collided_entity is PeerEntity :
 		entity.request_camera(-sign(collided_entity.camera_point.translation.x))
 
 ##func _animation_blend_started(anim_name):

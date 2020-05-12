@@ -16,9 +16,11 @@ const STATES = {
 	"off_kick" : preload("res://entities/sword_figher/states/sword_fighter_off_kick.gd"),
 	"off_block" : preload("res://entities/sword_figher/states/sword_fighter_off_block.gd"),
 	"off_run" : preload("res://entities/sword_figher/states/sword_fighter_off_run.gd"),
+	"off_throw_f" : preload("res://entities/sword_figher/states/sword_fighter_off_throw_f.gd"),
 	"def_hi_light" : preload("res://entities/sword_figher/states/sword_fighter_def_hi_light.gd"),
 	"stance_switch" : preload("res://entities/sword_figher/states/sword_fighter_stance_switch.gd"),
 	"hit_stun" : preload("res://entities/sword_figher/states/sword_fighter_hit_stun.gd"),
 	"walk" : preload("res://entities/sword_figher/states/sword_fighter_walk.gd"),
 	"def_step" : preload("res://entities/sword_figher/states/sword_fighter_def_step.gd"),
+	"receive_throw" : preload("res://entities/sword_figher/states/sword_fighter_receive_throw.gd"),
 	}

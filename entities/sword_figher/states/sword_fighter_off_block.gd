@@ -33,9 +33,12 @@ func _received_hit(hit : Hit):
 #	set_next_state("hit_stun")
 #	entity.hp -= entity.received_hit.damage
 #	entity.velocity = Vector3.ZERO
-	var knockback_vector = entity.received_hit.knockback.rotated(-entity.received_hit.direction.y)
-	entity.add_impulse(Vector3(knockback_vector.x, 0, knockback_vector.y))
 #	entity.set_animation("off_kick", 0, 6.0)
+	if hit.grab:
+		set_next_state("receive_throw")
+	else:
+		var knockback_vector = entity.received_hit.knockback.rotated(-entity.received_hit.direction.y)
+		entity.add_impulse(Vector3(knockback_vector.x, 0, knockback_vector.y))
 	pass
 
 #

@@ -1,8 +1,13 @@
 extends KinematicBody
 class_name Entity
 
-# warning-ignore:unused_signal
 signal hp_changed(new_value)
+# warning-ignore:unused_signal
+signal transform_changed(new_value)
+signal position_changed(new_value)
+signal rotation_changed(new_value)
+signal animation_changed(anim_name, seek_pos, blend_speed)
+signal dealt_hit(hit)
 signal requested_camera(entity)
 
 enum Stances {OFFENSIVE, DEFENSIVE, UNIQUE}
@@ -33,6 +38,8 @@ var animation_ended = false
 var old_animation = ""
 var animation_slot = 1
 var current_stance = Stances.UNIQUE
+var receive_throw_pos = Vector3.ZERO
+var throwing_entity = null
 
 onready var lock_on_target : Spatial = get_node(target)
 onready var input_listener = $InputListener
@@ -50,9 +57,6 @@ onready var flags = $AnimationFlags
 func set_hp(value):
 	hp = clamp(value, 0, max_hp)
 	emit_signal("hp_changed", hp)
-	
-	if get_tree().has_network_peer():
-		NetworkManager.rpc("update_my_hp_on_peers", NetworkManager.get_my_id(), hp)
 
 func set_has_camera(value):
 	has_camera = value
@@ -67,25 +71,31 @@ func get_direction():
 	return model_container.transform.basis.get_euler()
 
 func _ready():
-	if get_tree().has_network_peer():
-		NetworkManager.connect("peer_dealt_hit", self, "receive_hit_from_peer")
-		if get_tree().is_network_server():
-			transform = get_node("../Player1Pos").transform
-			connect("hp_changed", get_node("../Lifebar"), "_on_sword_fighter_hp_changed")
-			$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_1_MATERIAL
-			$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_1_MATERIAL
-			get_node("../PlayerName1").text = NetworkManager.my_info["name"]
-		else:
-			transform = get_node("../Player2Pos").transform
-			connect("hp_changed", get_node("../Lifebar2"), "_on_sword_fighter_hp_changed")
-			$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_2_MATERIAL
-			$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_2_MATERIAL
-			get_node("../PlayerName2").text = NetworkManager.my_info["name"]
-		
-		NetworkManager.rpc("notify_ready")
-	
 	fsm.setup()
 	$AnimationTree.active = true
+	emit_signal("ready")
+	
+func setup(side):
+	player_side = side
+	if player_side == 1:
+		transform = get_node("../Player1Pos").transform
+		connect("hp_changed", get_node("../Lifebar"), "_on_sword_fighter_hp_changed")
+		$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_1_MATERIAL
+		$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_1_MATERIAL
+	elif player_side == 2:
+		transform = get_node("../Player2Pos").transform
+		connect("hp_changed", get_node("../Lifebar2"), "_on_sword_fighter_hp_changed")
+		$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_2_MATERIAL
+		$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_2_MATERIAL
+
+func reset():
+	self.hp = max_hp
+	fsm.setup()
+	if player_side == 1:
+		transform = get_node("../Player1Pos").transform
+	else:
+		transform = get_node("../Player2Pos").transform
+	emit_signal("ready")
 
 func _on_InputListener_received_input(key, state):
 	fsm.receive_event("_received_input", [key, state])
@@ -161,10 +171,8 @@ func _physics_process(delta):
 
 	fsm._process_current_state(delta, true)
 	
-	#NET:
-	if get_tree().has_network_peer():
-		NetworkManager.rpc_unreliable("update_my_transform_on_peers", NetworkManager.get_my_id(),
-			transform)
+#	emit_signal("transform_changed", transform)
+	emit_signal("position_changed", transform.origin)
 
 func set_velocity(_velocity):
 	velocity = _velocity.rotated(Vector3.UP, model_container.rotation.y)
@@ -176,12 +184,8 @@ func apply_tracking(delta):
 	var current_rot = model_container.rotation.y
 	model_container.rotation.y = lerp_angle(current_rot, target_rotation, delta * tracking_speed)
 #	model_container.rotation.y = target_rotation
+	emit_signal("rotation_changed", model_container.rotation.y)
 	
-	if get_tree().has_network_peer():
-		NetworkManager.rpc_unreliable("update_my_rotation_on_peers", NetworkManager.get_my_id(),
-			model_container.rotation.y)
-		pass
-
 func apply_drag(delta):
 	if velocity.length_squared() < 0.05:
 		velocity.x = 0.0
@@ -253,11 +257,7 @@ func set_animation(anim_name, seek_pos, blend_speed):
 #			"to", anim_tree.tree_root.get_node("animation_0").animation)
 
 	animation_slot = -animation_slot
-	
-	#NETWORK
-	if get_tree().has_network_peer():
-		NetworkManager.rpc("update_my_animation_on_peers", NetworkManager.get_my_id(),
-			anim_name, seek_pos, blend_speed)
+	emit_signal("animation_changed", anim_name, seek_pos, blend_speed)
 
 func is_blending():
 	return animation_blender.is_playing()
@@ -320,16 +320,27 @@ func reset_hitboxes():
 	$ModelContainer/Hitbox.active = false
 	$ModelContainer/Hitbox2.active = false
 
-func _on_Hurtbox_received_hit(hit, hurtbox):
+func _receive_hit(hit):
 	received_hit = hit
 	fsm.receive_event("_received_hit", hit)
 
+func _on_Hurtbox_received_hit(hit, hurtbox):
+	_receive_hit(hit)
+
 func _on_Hitbox_dealt_hit(hit : Hit, collided_entity):
 	fsm.receive_event("_dealt_hit", collided_entity)
+	emit_signal("dealt_hit", hit)
 	
-	if get_tree().has_network_peer():
-		if collided_entity is PeerEntity:
-			send_hit_to_peer(hit)
+func receive_throw(pos, rot, _throwing_entity):
+	add_collision_exception_with(_throwing_entity)
+	throwing_entity = _throwing_entity
+	translation = pos
+	model_container.rotation.y = rot
+	pass
+
+func follow_throw_position(delta):
+	if throwing_entity != null:
+		translation = throwing_entity.get_node("ModelContainer/sword_fighter/Armature/Skeleton/ThrowAttachment").global_transform.origin
 
 func _on_RSide_body_entered(body):
 	if not body == self and body is KinematicBody:
@@ -346,22 +357,3 @@ func _on_LSide_body_entered(body):
 				body.request_camera(1)
 			else:
 				request_camera(1)
-
-# NETWORKIG
-func send_hit_to_peer(hit):
-	var hit_data = {
-		"name" : hit.name,
-		"damage" : hit.damage,
-		"knockback" : hit.knockback,
-		"direction" : hit.direction,
-#		"position" : hit.position,
-		}
-	NetworkManager.rpc("notify_hit_on_peers", NetworkManager.get_my_id(), hit_data)
-
-func receive_hit_from_peer(id, hit_data):
-	var new_hit = Hit.new(Hit.INIT_TYPE.DEFAULT)
-	for key in hit_data:
-		new_hit.set(key, hit_data[key])
-		
-	received_hit = new_hit
-	fsm.receive_event("_received_hit", new_hit)

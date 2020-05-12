@@ -17,6 +17,7 @@ func _enter_state():
 func _exit_state():
 	if entity.get_current_animation() == "run_loop":
 		entity.tween_camera_position(start_camera_pos)
+	._exit_state()
 	pass
 #
 func _process_state(delta):
@@ -75,6 +76,8 @@ func _animation_finished(anim_name):
 #
 func _received_input(key, state):
 #	if entity.flags.is_stringable:
+	._received_input(key, state)
+	
 	if not state:
 		if key == InputManager.UP:
 			released_up = true
@@ -86,6 +89,5 @@ func _received_input(key, state):
 				entity.ground_drag = 20
 				entity.set_animation("off_run_stop", 0, 10.0)
 #				set_next_state("off_hi_fierce")
-	._received_input(key, state)
 #			if key == InputManager.HEAVY:
 #				set_next_state("off_kick")

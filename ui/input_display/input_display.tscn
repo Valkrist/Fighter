@@ -44,6 +44,54 @@ modulate = Color( 0.431373, 0.431373, 0.431373, 1 )
 scale = Vector2( 1.25, 1.25 )
 texture = ExtResource( 5 )
 
+[node name="Label" type="Label" parent="Control/StickContainer"]
+margin_left = -22.0
+margin_top = -80.0
+margin_right = 2.0
+margin_bottom = -64.0
+rect_scale = Vector2( 2, 2 )
+text = "W"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Control/StickContainer"]
+margin_left = -94.0
+margin_top = -8.0
+margin_right = -70.0
+margin_bottom = 8.0
+rect_scale = Vector2( 2, 2 )
+text = "A"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Control/StickContainer"]
+margin_left = 42.0
+margin_top = -8.0
+margin_right = 66.0
+margin_bottom = 8.0
+rect_scale = Vector2( 2, 2 )
+text = "D"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="Control/StickContainer"]
+margin_left = -19.0
+margin_top = 56.0
+margin_right = 1.0
+margin_bottom = 72.0
+rect_scale = Vector2( 2, 2 )
+text = "S"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="StickBase" type="Sprite" parent="Control/StickContainer"]
 visible = false
 scale = Vector2( 0.75, 0.75 )
@@ -81,7 +129,7 @@ margin_left = -23.3334
 margin_top = -26.6667
 margin_right = -10.3334
 margin_bottom = -12.6667
-text = "X"
+text = "H"
 
 [node name="UIButton4" parent="Control" instance=ExtResource( 2 )]
 position = Vector2( 240, 56 )
@@ -93,6 +141,7 @@ modulate = Color( 0.682353, 1, 0.415686, 1 )
 [node name="Label" parent="Control/UIButton4" index="1"]
 margin_top = -26.6667
 margin_bottom = -12.6667
+text = "Y"
 
 [node name="UIButton5" parent="Control" instance=ExtResource( 2 )]
 position = Vector2( 320, 40 )
@@ -106,7 +155,7 @@ margin_left = -24.6667
 margin_top = -25.3333
 margin_right = -11.6667
 margin_bottom = -11.3333
-text = "B"
+text = "U"
 
 [node name="UIButton7" parent="Control" instance=ExtResource( 2 )]
 position = Vector2( 400, 40 )
@@ -120,7 +169,7 @@ margin_left = -24.6666
 margin_top = -26.6667
 margin_right = -11.6666
 margin_bottom = -12.6667
-text = "C"
+text = "I"
 
 [node name="UIButton12" parent="Control" instance=ExtResource( 2 )]
 position = Vector2( 480, 96 )
@@ -134,7 +183,7 @@ margin_left = -20.6671
 margin_top = -25.3334
 margin_right = -8.66711
 margin_bottom = -11.3334
-text = "S"
+text = "L"
 
 [editable path="Control/UIButton6"]
 

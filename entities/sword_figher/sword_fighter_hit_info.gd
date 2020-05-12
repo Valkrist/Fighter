@@ -25,4 +25,11 @@ const HITS = {
 #		"guard_break" : true, "pick_up" : true, "launcher" :  true,
 #		"type" : Hit.HIT_TYPE.SWORD, "visual_effect" : Hit.VISUAL_EFFECTS.SLASH,
 		},
+	"off_throw_f_startup" : {
+		"grab" : true, "damage" : 125,
+#		"knockback" : Vector2(0, -12), "is_directional" : true,
+#		"tiredness" : 2, "hit_stop" : 0.25, "sp_gain" : 10,
+#		"guard_break" : true, "pick_up" : true, "launcher" :  true,
+#		"type" : Hit.HIT_TYPE.SWORD, "visual_effect" : Hit.VISUAL_EFFECTS.SLASH,
+		},
 	}

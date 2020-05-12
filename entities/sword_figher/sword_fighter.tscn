@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://entities/sword_figher/model/sword_fighter.glb" type="PackedScene" id=1]
 [ext_resource path="res://entities/sword_figher/sword_fighter.gd" type="Script" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://entities/sword_figher/sword_fighter_hit_info.gd" type="Script" id=10]
 [ext_resource path="res://objects/hurtbox.tscn" type="PackedScene" id=11]
 [ext_resource path="res://entities/sword_figher/sword_fighter_player_1.material" type="Material" id=12]
-[ext_resource path="res://entities/sword_figher/input_simulator.gd" type="Script" id=13]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.558514
@@ -523,6 +522,12 @@ length = 0.7
 
 [sub_resource type="Animation" id=12]
 length = 2.26667
+
+[sub_resource type="Animation" id=47]
+length = 0.001
+
+[sub_resource type="Animation" id=48]
+length = 1.33333
 
 [sub_resource type="Animation" id=13]
 length = 0.333333
@@ -1058,6 +1063,61 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=24]
 length = 1.93333
 
+[sub_resource type="Animation" id=49]
+length = 2.25
+
+[sub_resource type="Animation" id=50]
+length = 0.833333
+step = 0.016
+tracks/0/type = "value"
+tracks/0/path = NodePath("ModelContainer/Hitbox:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector3( 0.00636727, 1.192, -0.759958 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ModelContainer/Hitbox:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector3( 0.378735, 0.378735, 0.378735 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ModelContainer/Hitbox:hit_name")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "off_throw_f_startup" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ModelContainer/Hitbox:active")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.208, 0.24 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [sub_resource type="Animation" id=25]
 length = 1.33333
 tracks/0/type = "value"
@@ -1322,6 +1382,9 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+
+[sub_resource type="Animation" id=51]
+length = 2.18333
 
 [sub_resource type="Animation" id=30]
 length = 0.3
@@ -1667,85 +1730,8 @@ tracks/4/keys = {
 "values": [  ]
 }
 
-[sub_resource type="RayShape" id=47]
+[sub_resource type="RayShape" id=46]
 length = 3.0
-
-[sub_resource type="Animation" id=48]
-resource_name = "New Anim"
-length = 12.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("InputSimulator:up")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 3.5, 6.5, 6.6, 6.7, 9.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, true, false, true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("InputSimulator:light")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.8, 1.1, 9.5, 9.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, true, false ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("InputSimulator:heavy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 2.1, 2.4, 8.1, 8.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ true, false, true, false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("InputSimulator:left")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 3.6, 8.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("InputSimulator:down")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 4.3, 5.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("InputSimulator:right")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 9, 11.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
 
 [node name="SwordFighter" type="KinematicBody"]
 collision_mask = 3
@@ -1755,18 +1741,18 @@ default_ground_drag = 15
 [node name="FSM" parent="." instance=ExtResource( 4 )]
 state_list_script = ExtResource( 5 )
 
-[node name="InputListener" parent="." instance=ExtResource( 3 )]
-enabled = true
-listen_to_pads = PoolIntArray( 0 )
-remember_last_input_direction = true
-window_for_input_chain = 12
-
 [node name="AnimationFlags" parent="." instance=ExtResource( 7 )]
 is_cancelable = true
 is_evade_cancelable = true
 is_command_cancelable = true
 is_stringable = true
 no_root_motion_to_speed = true
+
+[node name="InputListener" parent="." instance=ExtResource( 3 )]
+enabled = true
+listen_to_pads = PoolIntArray( 0 )
+remember_last_input_direction = true
+window_for_input_chain = 12
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.55842, 0 )
@@ -1798,6 +1784,8 @@ anims/def_taunt = SubResource( 9 )
 anims/defensive_stance = SubResource( 10 )
 anims/jump_land = SubResource( 11 )
 anims/jump_start = SubResource( 12 )
+anims/knocked_down = SubResource( 47 )
+anims/off_block_break = SubResource( 48 )
 anims/off_block_hi = SubResource( 13 )
 anims/off_block_low = SubResource( 14 )
 anims/off_h_r_0001 = SubResource( 15 )
@@ -1810,11 +1798,14 @@ anims/off_kick = SubResource( 21 )
 anims/off_run_startup = SubResource( 22 )
 anims/off_run_stop = SubResource( 23 )
 anims/off_taunt = SubResource( 24 )
+anims/off_throw_f = SubResource( 49 )
+anims/off_throw_f_startup = SubResource( 50 )
 anims/off_walk_back = SubResource( 25 )
 anims/off_walk_forward = SubResource( 26 )
 anims/off_walk_left = SubResource( 27 )
 anims/off_walk_right = SubResource( 28 )
 anims/offensive_stance = SubResource( 29 )
+anims/receive_off_throw_f = SubResource( 51 )
 anims/run_break = SubResource( 30 )
 anims/run_break_loop = SubResource( 31 )
 anims/run_loop = SubResource( 32 )
@@ -1847,22 +1838,25 @@ material/0 = ExtResource( 12 )
 material/0 = ExtResource( 12 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 0.12379, -0.336002, -0.933691, -0.270738, 0.893793, -0.357539, 0.95466, 0.297046, 0.0196746, 0.114741, 1.59925, -0.447376 )
+transform = Transform( 1, 0, 0, 0, 0.998474, 0.0552152, 0, -0.0552152, 0.998474, -6.59474e-17, 2.24226, 0 )
 bone_name = "torso"
 
 [node name="Hurtbox" parent="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment" instance=ExtResource( 11 )]
 transform = Transform( 0.547956, -1.49012e-08, 3.72529e-08, 2.98023e-08, 0.547956, -1.04308e-07, -5.21541e-08, -1.49012e-07, 0.547957, 5.96046e-08, 0.25754, -1.19209e-07 )
 visible = false
 
+[node name="ThrowAttachment" type="BoneAttachment" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+bone_name = "throw_pos"
+
 [node name="AnimationPlayer" parent="ModelContainer/sword_fighter" index="1"]
 playback_process_mode = 0
 blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
 
 [node name="Hitbox" parent="ModelContainer" instance=ExtResource( 9 )]
-transform = Transform( 0.524719, 0, 0, 0, 0.524719, 0, 0, 0, 0.524719, 0.00636727, 1.25873, -1.03357 )
-active = true
+transform = Transform( 0.378735, 0, 0, 0, 0.378735, 0, 0, 0, 0.378735, 0.00636727, 1.192, -0.759958 )
 hit_info = ExtResource( 10 )
-hit_name = "off_hi_r_heavy"
+hit_name = "off_throw_f_startup"
 
 [node name="Hitbox2" parent="ModelContainer" instance=ExtResource( 9 )]
 transform = Transform( 0.555088, 0, 0, 0, 0.555088, 0, 0, 0, 0.555088, -0.00455561, 1.25873, -0.340885 )
@@ -1875,14 +1869,14 @@ transform = Transform( 0.5, -1.13133e-08, 0.866025, 4.36679e-09, 1, 1.05424e-08,
 collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="ModelContainer/RSide"]
-shape = SubResource( 47 )
+shape = SubResource( 46 )
 
 [node name="LSide" type="Area" parent="ModelContainer"]
 transform = Transform( 0.5, -1.12605e-05, -0.866025, -1.84381e-06, 1, -1.4067e-05, 0.866025, 8.63028e-06, 0.5, 0, 1, 0 )
 collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="ModelContainer/LSide"]
-shape = SubResource( 47 )
+shape = SubResource( 46 )
 
 [node name="CameraPointPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
@@ -1893,15 +1887,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.6, 1.5 )
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 3.0
 playback/speed = 3.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/New Anim" = SubResource( 48 )
-
-[node name="InputSimulator" type="Node" parent="."]
-script = ExtResource( 13 )
-up = true
-[connection signal="received_input" from="InputListener" to="." method="_on_InputListener_received_input"]
 [connection signal="flag_changed" from="AnimationFlags" to="." method="_on_AnimationFlags_flag_changed"]
+[connection signal="received_input" from="InputListener" to="." method="_on_InputListener_received_input"]
 [connection signal="animation_finished" from="AnimationEvents" to="." method="_on_AnimationEvents_animation_finished"]
 [connection signal="animation_finished" from="AnimationBlender" to="." method="_on_AnimationBlender_animation_finished"]
 [connection signal="received_hit" from="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment/Hurtbox" to="." method="_on_Hurtbox_received_hit"]

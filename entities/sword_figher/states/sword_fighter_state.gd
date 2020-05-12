@@ -21,6 +21,7 @@ func get_possible_transitions():
 #		"def_step",
 		"offensive_stance",
 		"defensive_stance",
+		"off_throw_f",
 		"off_hi_light",
 		"off_hi_heavy",
 		"off_hi_fierce",
@@ -55,7 +56,10 @@ func _process_state(delta):
 #	._exit_state()
 
 func _received_hit(hit : Hit):
-	set_next_state("hit_stun")
+	if hit.grab:
+		set_next_state("receive_throw")
+	else:
+		set_next_state("hit_stun")
 #	if entity.flags.is_defending:
 #		return
 #
@@ -211,6 +215,10 @@ func test_transition_by_input(key : int, key_state : int, valid_transitions : Ar
 					if entity.input_listener.is_key_released(InputManager.UP):
 						return {"state" : "walk", "flag" : "is_stringable"}
 						
+			InputManager.THROW:
+				if valid_transitions.has("off_throw_f"):
+					return {"state" : "off_throw_f", "flag" : "is_stringable"}
+				
 #			"cross":
 #				for t in valid_transitions:
 #					match t as String :

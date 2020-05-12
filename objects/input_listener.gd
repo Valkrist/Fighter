@@ -22,17 +22,18 @@ var input_buffer = [[0,0],[0,0],[0,0],[0,0],[0,0]]
 
 export var window_for_multiple_input = 3
 var multiple_inputs = {
-	"jumpspecial" : "special+jump",
-	"specialjump" : "special+jump",
-	"specialfire" : "special+fire",
-	"firespecial" : "special+fire",
-	"specialsword" : "special+sword",
-	"swordspecial" : "special+sword",
+#	"jumpspecial" : "special+jump",
+#	"specialjump" : "special+jump",
+#	"specialfire" : "special+fire",
+#	"firespecial" : "special+fire",
+#	"specialsword" : "special+sword",
+#	"swordspecial" : "special+sword",
 #	"swordkick" : "sword+kick",
 #	"swordkick" : InputManager.STANCE,
 #	"kicksword" : InputManager.STANCE,
-	"swordjump" : InputManager.STANCE,
-	"jumpsword" : InputManager.STANCE,
+#	"swordjump" : InputManager.STANCE,
+	[InputManager.LIGHT, InputManager.GUARD] : InputManager.THROW,
+	[InputManager.GUARD, InputManager.LIGHT] : InputManager.THROW,
 	}
 
 export var window_for_input_chain = 15
@@ -62,7 +63,6 @@ signal received_input(key, state)
 
 func _ready():
 	InputManager.connect("key_changed", self, "_received_input")
-	get_node("../InputSimulator").connect("simulated_input", self, "_received_input")
 #	InputManager.connect("multiple_input_pressed", self, "_received_multiple_input")
 	set_physics_process(false)
 
@@ -125,15 +125,16 @@ func add_to_input_buffer(key):
 	if input_buffer.size() > input_buffer_size: 
 		input_buffer.pop_back()
 		
-#	check_multiple_input(key)
+	check_multiple_input(key)
 
 func check_multiple_input(key):
 	if input_buffer[0][1] - input_buffer[1][1] <= window_for_multiple_input:
-		var key_string = str(input_buffer[0][0] + input_buffer[1][0])
-		if multiple_inputs.has(key_string):
-			emit_signal("received_input", multiple_inputs[key_string], InputManager.PRESSED)
-			last_multiple_input = multiple_inputs[key_string]
+		var key_combination = [input_buffer[0][0], input_buffer[1][0]]
+		if multiple_inputs.has(key_combination):
+			emit_signal("received_input", multiple_inputs[key_combination], InputManager.PRESSED)
+			last_multiple_input = multiple_inputs[key_combination]
 			last_multiple_input_combination = [input_buffer[1][0], input_buffer[0][0]]
+#		print(multiple_inputs[key_combination])
 
 func check_input_chains(key):
 	if key == InputManager.STANCE or key == InputManager.START:

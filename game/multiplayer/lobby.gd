@@ -1,6 +1,6 @@
 extends Control
 
-const STAGE = preload("res://stages/stage.tscn")
+const STAGE = preload("res://stages/forest/stage.tscn")
 
 onready var label = $Label
 
@@ -12,13 +12,6 @@ func _ready():
 	NetworkManager.connect("connected_to_server", self, "_connected_ok")
 	NetworkManager.connect("server_disconnected", self, "_server_disconnected")
 	NetworkManager.connect("peer_registered", self, "update_peer_list")
-	
-#	get_tree().connect("network_peer_connected", self, "_player_connected")
-#	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-#	get_tree().connect("connected_to_server", self, "_connected_ok")
-#	get_tree().connect("connection_failed", self, "_connected_fail")
-#	get_tree().connect("server_disconnected", self, "_server_disconnected")
-	
 	NetworkManager.lobby_scene = self
 
 #### Network callbacks from SceneTree ####
@@ -43,65 +36,53 @@ func _player_disconnected(_id):
 		$Ping.disabled = true
 
 func _connected_ok():
+	update_gui(true)
 	label.text = "Connected to server. Waiting for host to start game."
 	pass
 
 func _connected_fail():
+	update_gui(false)
 	label.text = "Couldn't connect to server."
-	get_tree().network_peer = null # Remove peer.
-	$Host.visible = true
-	$Join.visible = true
-	$Disconnect.visible = false
-	$MyName.editable = true
-	$Ping.disabled = true
 
 func _server_disconnected():
 	update_peer_list()
+	update_gui(false)
 	label.text = "Server disconnected."
-	$Host.visible = true
-	$Join.visible = true
-	$Disconnect.visible = false
-	$MyName.editable = true
-	$Ping.disabled = true
-	$StartSingleGame.disabled = false
 
 func update_peer_list():
 	$Peers.text = str(NetworkManager.peers)
 
 func _on_Host_pressed():
-	NetworkManager.my_info["name"] = $MyName.text
-	NetworkManager.host_game()
+	var port = int($Port.text)
 	
-	$Host.visible = false
-	$Join.visible = false
-	$Disconnect.visible = true
-	$MyName.editable = false
-	$StartSingleGame.disabled = true
-	label.text = "Waitin' fo playa'..."
-
-func _on_Join_pressed():
-	if not $Adress.text.is_valid_ip_address():
-		label.text = "Ip address is invalid."
+	if not $Port.text.is_valid_integer() or port < 0 or port > 65535:
+		label.text = "Port invalid."
+	
 	else:
 		NetworkManager.my_info["name"] = $MyName.text
-		NetworkManager.join_game($Adress.text)
+		NetworkManager.host_game(port)
+		label.text = "Waitin' fo playa'..."
+		update_gui(true)
+
+func _on_Join_pressed():
+	var port = int($Port.text)
+	
+	if not $Port.text.is_valid_integer() or port < 0 or port > 65535:
+		label.text = "Port invalid."
 		
-		$Host.visible = false
-		$Join.visible = false
-		$Disconnect.visible = true
-		$MyName.editable = false
-		$StartSingleGame.disabled = true
+	elif not $Adress.text.is_valid_ip_address():
+		label.text = "Ip address invalid."
+		
+	else:
+		NetworkManager.my_info["name"] = $MyName.text
+		NetworkManager.join_game($Adress.text, port)
 		label.text = "Waitin' fo serva'..."
+		update_gui(true)
 
 func _on_Disconnect_pressed():
 	if get_tree().has_network_peer():
 		NetworkManager.disconnect_network()
-		$Host.visible = true
-		$Join.visible = true
-		$Disconnect.visible = false
-		$MyName.editable = true
-		$Ping.disabled = true
-		$StartSingleGame.disabled = false
+		update_gui(false)
 		update_peer_list()
 		label.text = "Disconnected."
 	else:
@@ -138,3 +119,33 @@ func _on_StartSingleGame_pressed():
 	NetworkManager.disconnect_network()
 	visible = false
 	get_tree().root.add_child(STAGE.instance())
+
+func _on_Port_text_changed(new_text):
+	if new_text == "":
+		$Port.text = str(NetworkManager.DEFAULT_PORT)
+
+func _on_Adress_text_changed(new_text):
+	if new_text == "":
+		$Adress.text = "127.0.0.1"
+
+func update_gui(is_connected):
+	if is_connected:
+		$Host.visible = false
+		$Join.visible = false
+		$Disconnect.visible = true
+		$MyName.editable = false
+		$Adress.editable = false
+		$Port.editable = false
+		$StartSingleGame.disabled = true
+	else:
+		$Host.visible = true
+		$Join.visible = true
+		$Disconnect.visible = false
+		$MyName.editable = true
+		$Adress.editable = true
+		$Port.editable = true
+		$Ping.disabled = true
+		$StartSingleGame.disabled = false
+
+
+

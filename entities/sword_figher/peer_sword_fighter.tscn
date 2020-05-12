@@ -301,12 +301,16 @@ anims/walk = SubResource( 14 )
 transform = Transform( -0.6, 0, -9.05975e-08, 0, 0.6, 0, 9.05975e-08, 0, -0.6, 0, 0, 0 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 0.12379, -0.336002, -0.933691, -0.270738, 0.893793, -0.357539, 0.95466, 0.297046, 0.0196746, 0.114741, 1.59925, -0.447376 )
+transform = Transform( 1, 0, 0, 0, 0.998474, 0.0552152, 0, -0.0552152, 0.998474, -6.59474e-17, 2.24226, 0 )
 bone_name = "torso"
 
 [node name="Hurtbox" parent="ModelContainer/sword_fighter/Armature/Skeleton/BoneAttachment" instance=ExtResource( 3 )]
 transform = Transform( 0.547956, -2.98023e-08, 5.21542e-08, 2.98023e-08, 0.547956, 1.49012e-07, -5.21541e-08, -1.49012e-07, 0.547957, 5.96046e-08, 0.25754, -1.19209e-07 )
 visible = false
+
+[node name="ThrowAttachment" type="BoneAttachment" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+bone_name = "throw_pos"
 
 [node name="CameraPointPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )

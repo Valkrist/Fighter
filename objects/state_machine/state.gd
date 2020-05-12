@@ -14,7 +14,7 @@ func get_name():
 
 func set_name(value):
 	name = value
-#	print(value)
+	print(value)
 
 func _get_next_state():
 	return next_state
