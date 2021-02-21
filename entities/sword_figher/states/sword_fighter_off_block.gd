@@ -34,7 +34,9 @@ func _received_hit(hit : Hit):
 #	entity.hp -= entity.received_hit.damage
 #	entity.velocity = Vector3.ZERO
 #	entity.set_animation("off_kick", 0, 6.0)
-	if hit.grab:
+	if hit.guard_break:
+		set_next_state("guard_broken")
+	elif hit.grab:
 		set_next_state("receive_throw")
 	else:
 		var knockback_vector = entity.received_hit.knockback.rotated(-entity.received_hit.direction.y)
@@ -73,7 +75,10 @@ func _received_input(key, state):
 			elif entity.input_listener.is_key_pressed(InputManager.RIGHT):
 				set_next_state("walk")
 			else:
-				set_next_state("offensive_stance")
+				if entity.current_stance == Entity.Stances.OFFENSIVE:
+					set_next_state("offensive_stance")
+				if entity.current_stance == Entity.Stances.DEFENSIVE:
+					set_next_state("defensive_stance")
 				return
 		if key == InputManager.DOWN:
 			entity.set_animation("off_block_hi", 0, 10.0)

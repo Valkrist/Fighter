@@ -2,33 +2,29 @@ extends "res://entities/sword_figher/states/sword_fighter_offensive_moves.gd"
 
 func get_animation_data():
 	# Name, seek and blend length 
-	return ["receive_off_throw_f", 0.0, 20.0]
+	return ["receive_off_throw_f", 0.0, 10.0]
 
 # Initialize state here: Set animation, add impulse, etc.
 func _enter_state():
 	entity.velocity = Vector3.ZERO
 	entity.hp -= entity.received_hit.damage
-#	entity.global_transform.origin = entity.receive_throw_pos
-#	entity.hp -= entity.received_hit.damage
-#	var knockback_vector = entity.received_hit.knockback.rotated(-entity.received_hit.direction.y)
-#	entity.add_impulse(Vector3(knockback_vector.x, 0, knockback_vector.y))
-#	entity.ground_drag = 30
-#	entity.set_animation("off_kick", 0, 6.0)
 	._enter_state()
+	
+	yield(entity.get_tree(), "physics_frame")
+	yield(entity.get_tree(), "physics_frame")
+	entity.translation = entity.receive_throw_pos
+	entity.model_container.rotation.y = entity.receive_throw_rot
+	entity.add_collision_exception_with(entity.throwing_entity)
 
 # Inverse of enter_state.
 func _exit_state():
-#	entity.set_collision_layer_bit(0, true)
-#	entity.set_collision_mask_bit(0, true)
-#	entity.collision_layer = 1
-#	entity.ground_drag = entity.default_ground_drag
 	entity.remove_collision_exception_with(entity.throwing_entity)
 #	pass
 
 func _process_state(delta):
 #	entity.apply_drag(delta)
 #	entity.follow_throw_position(delta)
-#	entity.apply_root_motion(delta)
+	entity.apply_root_motion(delta)
 	pass
 #
 ##func _animation_blend_started(anim_name):

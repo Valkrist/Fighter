@@ -21,8 +21,9 @@ const HITS = {
 		},
 	"off_kick" : {
 		"damage" : 10, "knockback" : Vector2(0, -12), "is_directional" : true,
+		"guard_break" : true,
 #		"tiredness" : 2, "hit_stop" : 0.25, "sp_gain" : 10,
-#		"guard_break" : true, "pick_up" : true, "launcher" :  true,
+#		"pick_up" : true, "launcher" :  true,
 #		"type" : Hit.HIT_TYPE.SWORD, "visual_effect" : Hit.VISUAL_EFFECTS.SLASH,
 		},
 	"off_throw_f_startup" : {

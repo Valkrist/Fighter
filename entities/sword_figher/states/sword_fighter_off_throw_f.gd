@@ -29,9 +29,8 @@ func _animation_finished(anim_name):
 #	set_next_state("offensive_stance")
 #	pass
 
-func _dealt_hit(collided_entity : Entity):
-	entity.set_animation("off_throw_f", 0.0, -1)
-	collided_entity.receive_throw_pos = entity.get_node("ModelContainer/sword_fighter/Armature/Skeleton/ThrowAttachment").global_transform.origin
+func _dealt_hit(collided_entity):
+	entity.set_animation("off_throw_f", 0.02, -1.0)
 	collided_entity.receive_throw(
 		entity.get_node("ModelContainer/sword_fighter/Armature/Skeleton/ThrowAttachment").global_transform.origin,
 		entity.model_container.rotation.y + PI, entity

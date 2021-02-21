@@ -156,6 +156,9 @@ func test_transition_by_input(key : int, key_state : int, valid_transitions : Ar
 					match t as String :
 						"off_hi_heavy":
 							return {"state" : t, "flag" : "is_stringable"}
+						"off_hi_heavy_1":
+							return {"state" : t, "flag" : "is_stringable"}
+							
 							
 			InputManager.STANCE:
 				for t in valid_transitions:
@@ -168,7 +171,7 @@ func test_transition_by_input(key : int, key_state : int, valid_transitions : Ar
 					match t as String:
 						"off_kick":
 							if entity.input_listener.is_key_pressed(InputManager.UP):
-								return {"state" : t, "flag" : "is_stringable"}
+								return {"state" : t, "flag" : "is_command_cancelable"}
 						"off_block":
 							return {"state" : t, "flag" : "is_evade_cancelable"}
 							
@@ -217,7 +220,7 @@ func test_transition_by_input(key : int, key_state : int, valid_transitions : Ar
 						
 			InputManager.THROW:
 				if valid_transitions.has("off_throw_f"):
-					return {"state" : "off_throw_f", "flag" : "is_stringable"}
+					return {"state" : "off_throw_f", "flag" : "is_command_cancelable"}
 				
 #			"cross":
 #				for t in valid_transitions:

@@ -39,6 +39,13 @@ func _flag_changed(flag, state):
 func _dealt_hit(collided_entity):
 	entity.flags.track_target = true
 
+func _received_hit(hit : Hit):
+	if hit.grab:
+#		set_next_state("receive_throw")
+		pass
+	else:
+		set_next_state("hit_stun")
+
 #func _received_input(key, state):
 #	if entity.flags.is_stringable:
 #		if state:

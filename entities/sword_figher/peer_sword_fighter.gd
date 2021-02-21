@@ -1,11 +1,15 @@
-extends Spatial
+extends KinematicBody
 class_name PeerEntity
 
 const PLAYER_1_MATERIAL = preload("res://entities/sword_figher/sword_fighter_player_1.material")
 const PLAYER_2_MATERIAL = preload("res://entities/sword_figher/sword_fighter_player_2.material")
 
+var network_interface
 var player_side = 1
 var animation_slot = 1
+var throwing_entity = null
+var throw_pos = Vector3.ZERO
+var throw_rot = 0.0
 
 onready var model = $ModelContainer/sword_fighter
 onready var model_container = $ModelContainer
@@ -25,6 +29,38 @@ func setup(side):
 		$ModelContainer/sword_fighter/Armature/Skeleton/Cube.material_override = PLAYER_2_MATERIAL
 		$ModelContainer/sword_fighter/Armature/Skeleton/sword.material_override = PLAYER_2_MATERIAL
 
+func reset():
+	if throwing_entity != null:
+		remove_collision_exception_with(throwing_entity)
+
+func _on_Hurtbox_received_hit(hit, hurtbox):
+	var hit_data = {
+		"name" : hit.name,
+		"damage" : hit.damage,
+		"knockback" : hit.knockback,
+		"direction" : hit.direction,
+		"guard_break" : hit.guard_break,
+		"grab" : hit.grab,
+		}
+	network_interface.rpc("receive_hit_from_peer", NetworkManager.my_id, hit_data)
+	pass
+
+func receive_throw(pos, rot, _throwing_entity):
+	throwing_entity = _throwing_entity
+	throw_pos = pos
+	throw_rot = rot
+	
+	network_interface.rpc("receive_throw_from_peer", pos, rot, _throwing_entity)
+	pass
+
+func throw_stared():
+	add_collision_exception_with(throwing_entity)
+	translation = throw_pos
+	model_container.rotation.y = throw_rot
+
+func throw_ended():
+	remove_collision_exception_with(throwing_entity)
+
 remote func update_transform(id, new_transform):
 	transform = new_transform
 
@@ -35,6 +71,9 @@ remote func update_rotation(id, new_rotation):
 	model_container.rotation.y = new_rotation
 
 remote func update_animation(id, anim_name, seek_pos, blend_speed):
+	
+	if $AnimationEvents.has_animation(anim_name):
+		$AnimationEvents.play(anim_name)
 	
 	if animation_slot == -1:
 		anim_tree.tree_root.get_node("animation_1").animation = anim_name
@@ -72,7 +111,3 @@ remote func update_hp(id, new_hp):
 		get_node("../Lifebar")._on_sword_fighter_hp_changed(new_hp)
 	else:
 		get_node("../Lifebar2")._on_sword_fighter_hp_changed(new_hp)
-
-remote func _on_Hurtbox_received_hit(hit, hurtbox):
-#	fsm.receive_event("_received_hit", hit)
-	pass

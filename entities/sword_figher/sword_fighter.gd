@@ -38,8 +38,9 @@ var animation_ended = false
 var old_animation = ""
 var animation_slot = 1
 var current_stance = Stances.UNIQUE
-var receive_throw_pos = Vector3.ZERO
 var throwing_entity = null
+var receive_throw_pos = Vector3.ZERO
+var receive_throw_rot = 0.0
 
 onready var lock_on_target : Spatial = get_node(target)
 onready var input_listener = $InputListener
@@ -91,6 +92,8 @@ func setup(side):
 func reset():
 	self.hp = max_hp
 	fsm.setup()
+	if throwing_entity != null:
+		remove_collision_exception_with(throwing_entity)
 	if player_side == 1:
 		transform = get_node("../Player1Pos").transform
 	else:
@@ -332,15 +335,18 @@ func _on_Hitbox_dealt_hit(hit : Hit, collided_entity):
 	emit_signal("dealt_hit", hit)
 	
 func receive_throw(pos, rot, _throwing_entity):
-	add_collision_exception_with(_throwing_entity)
 	throwing_entity = _throwing_entity
-	translation = pos
-	model_container.rotation.y = rot
+	receive_throw_pos = pos
+	receive_throw_rot = rot
+	
+#	add_collision_exception_with(_throwing_entity)
+#	translation = pos
+#	model_container.rotation.y = rot
 	pass
 
-func follow_throw_position(delta):
-	if throwing_entity != null:
-		translation = throwing_entity.get_node("ModelContainer/sword_fighter/Armature/Skeleton/ThrowAttachment").global_transform.origin
+#func follow_throw_position(delta):
+#	if throwing_entity != null:
+#		translation = throwing_entity.get_node("ModelContainer/sword_fighter/Armature/Skeleton/ThrowAttachment").global_transform.origin
 
 func _on_RSide_body_entered(body):
 	if not body == self and body is KinematicBody:

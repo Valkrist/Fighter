@@ -2,11 +2,15 @@ extends Node
 
 export var enabled = true
 
-onready var player_entity = get_node("../SwordFighter")
-onready var peer_entity = get_node("../PeerSwordFighter")
+var player_entity
+var peer_entity
 
 func _ready():
 	if enabled and get_tree().has_network_peer():
+		player_entity = get_node("../SwordFighter")
+		peer_entity = get_node("../PeerSwordFighter")
+		peer_entity.network_interface = self
+		
 		if get_tree().network_peer.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED:
 			NetworkManager.connect("peer_disconnected", self, "peer_disconnected")
 			NetworkManager.connect("server_disconnected", self, "server_disconnected")
@@ -17,7 +21,7 @@ func _ready():
 			player_entity.connect("position_changed", self, "player_entity_position_changed")
 			player_entity.connect("rotation_changed", self, "player_entity_rotation_changed")
 			player_entity.connect("animation_changed", self, "player_entity_animation_changed")
-			player_entity.connect("dealt_hit", self, "player_entity_dealt_hit")
+#			player_entity.connect("dealt_hit", self, "player_entity_dealt_hit")
 			
 			if get_tree().is_network_server():
 				player_entity.setup(1)
@@ -59,22 +63,26 @@ func player_entity_animation_changed(anim_name, seek_pos, blend_speed):
 	if enabled:
 		peer_entity.rpc("update_animation", NetworkManager.my_id, anim_name, seek_pos, blend_speed)
 
-func player_entity_dealt_hit(hit):
-	if enabled:
-		var hit_data = {
-			"name" : hit.name,
-			"damage" : hit.damage,
-			"knockback" : hit.knockback,
-			"direction" : hit.direction,
-#			"position" : hit.position,
-			}
-		rpc("receive_hit_from_peer", NetworkManager.my_id, hit_data)
+#func player_entity_dealt_hit(hit):
+#	if enabled:
+#		var hit_data = {
+#			"name" : hit.name,
+#			"damage" : hit.damage,
+#			"knockback" : hit.knockback,
+#			"direction" : hit.direction,
+#			"grab" : hit.grab,
+#			}
+#		rpc("receive_hit_from_peer", NetworkManager.my_id, hit_data)
 
 remote func receive_hit_from_peer(id, hit_data):
 	var new_hit = Hit.new(Hit.INIT_TYPE.DEFAULT)
 	for key in hit_data:
 		new_hit.set(key, hit_data[key])
 	player_entity._receive_hit(new_hit)
+
+remote func receive_throw_from_peer(pos, rot, _throwing_entity):
+	player_entity.receive_throw(pos, rot, peer_entity)
+	pass
 
 remotesync func player_ready():
 	get_tree().paused = false
@@ -89,6 +97,7 @@ remotesync func round_end(winner):
 remotesync func reset():
 	get_node("../RoundEnd").visible = false
 	player_entity.reset()
+	peer_entity.reset()
 
 func _on_Timer_timeout():
 	rpc("reset")

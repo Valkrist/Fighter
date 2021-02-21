@@ -24,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/hit.gd"
 }, {
-"base": "Spatial",
+"base": "KinematicBody",
 "class": "PeerEntity",
 "language": "GDScript",
 "path": "res://entities/sword_figher/peer_sword_fighter.gd"

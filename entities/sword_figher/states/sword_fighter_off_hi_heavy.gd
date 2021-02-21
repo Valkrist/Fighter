@@ -1,5 +1,22 @@
 extends "res://entities/sword_figher/states/sword_fighter_offensive_moves.gd"
 
+func get_possible_transitions():
+	return [
+		"off_run",
+		"walk",
+#		"def_step",
+		"offensive_stance",
+		"defensive_stance",
+		"off_throw_f",
+		"off_hi_light",
+		"off_hi_heavy_1",
+		"off_hi_fierce",
+		"def_hi_light",
+		"off_kick",
+		"off_block",
+		"stance_switch",
+		]
+
 func get_animation_data():
 	# Name, seek and blend length 
 	return ["off_h_r_heavy", 0.0, 5.0]

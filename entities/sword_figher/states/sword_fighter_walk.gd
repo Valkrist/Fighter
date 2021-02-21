@@ -41,7 +41,7 @@ func _process_state(delta):
 		entity.set_animation(DIRECTION_ANIMS[direction], 0, 6.0)
 		old_direction = direction
 	
-	entity.anim_tree["parameters/walk_blend/blend_position"] = direction #* blend_amount
+#	entity.anim_tree["parameters/walk_blend/blend_position"] = direction #* blend_amount
 #	entity.motion_vector = Vector3(direction.x, 0, direction.y).normalized()
 	entity.motion_vector = Vector3(direction.x, 0, direction.y)
 	

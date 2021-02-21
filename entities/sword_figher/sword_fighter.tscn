@@ -205,7 +205,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.416667 ),
+"times": PoolRealArray( 0.366667 ),
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
@@ -257,7 +257,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.35 ),
+"times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
@@ -308,7 +308,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.4 ),
+"times": PoolRealArray( 0.2 ),
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
@@ -385,7 +385,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.4 ),
+"times": PoolRealArray( 0.2 ),
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
@@ -523,13 +523,13 @@ length = 0.7
 [sub_resource type="Animation" id=12]
 length = 2.26667
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=13]
 length = 0.001
 
-[sub_resource type="Animation" id=48]
+[sub_resource type="Animation" id=14]
 length = 1.33333
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=15]
 length = 0.333333
 step = 0.0166667
 tracks/0/type = "value"
@@ -545,7 +545,7 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=16]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:track_target")
@@ -560,29 +560,42 @@ tracks/0/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=17]
 length = 0.833333
 
-[sub_resource type="Animation" id=16]
-length = 0.383333
+[sub_resource type="Animation" id=18]
+length = 0.7
+step = 0.016
+tracks/0/type = "value"
+tracks/0/path = NodePath("ModelContainer/Hitbox2:active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.272, 0.32 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 2,
+"values": [ true, false ]
+}
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=19]
 length = 1.16667
 step = 0.016
 tracks/0/type = "value"
-tracks/0/path = NodePath("AnimationFlags:is_evade_cancelable")
+tracks/0/path = NodePath("AnimationFlags:is_stringable")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.864 ),
+"times": PoolRealArray( 0.4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("AnimationFlags:is_stringable")
+tracks/1/path = NodePath("AnimationFlags:is_evade_cancelable")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/imported = false
@@ -674,7 +687,7 @@ tracks/8/enabled = true
 tracks/8/keys = {
 "times": PoolRealArray( 0, 0.864 ),
 "transitions": PoolRealArray( 1, 1 ),
-"update": 1,
+"update": 2,
 "values": [ false, true ]
 }
 tracks/9/type = "value"
@@ -702,7 +715,7 @@ tracks/10/keys = {
 "values": [ "off_hi_r_heavy" ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=20]
 length = 0.916667
 step = 0.0166667
 tracks/0/type = "value"
@@ -730,10 +743,10 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=21]
 length = 0.666667
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
 length = 0.666667
 step = 0.016
 tracks/0/type = "value"
@@ -857,7 +870,7 @@ tracks/9/keys = {
 "values": [ "off_hi_r_light" ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=23]
 step = 0.016
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_evade_cancelable")
@@ -1004,11 +1017,11 @@ tracks/11/keys = {
 "values": [ "off_kick" ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=24]
 length = 0.2
 step = 0.0166667
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=25]
 length = 0.583333
 step = 0.0166667
 tracks/0/type = "value"
@@ -1042,7 +1055,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.333333 ),
+"times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "update": 2,
 "values": [ true ]
@@ -1060,13 +1073,13 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=26]
 length = 1.93333
 
-[sub_resource type="Animation" id=49]
+[sub_resource type="Animation" id=27]
 length = 2.25
 
-[sub_resource type="Animation" id=50]
+[sub_resource type="Animation" id=28]
 length = 0.833333
 step = 0.016
 tracks/0/type = "value"
@@ -1118,7 +1131,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=29]
 length = 1.33333
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_stringable")
@@ -1169,7 +1182,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=30]
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_stringable")
 tracks/0/interp = 1
@@ -1219,7 +1232,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=31]
 length = 0.833333
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_stringable")
@@ -1270,7 +1283,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=32]
 length = 0.833333
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_stringable")
@@ -1321,7 +1334,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=33]
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_stringable")
 tracks/0/interp = 1
@@ -1383,10 +1396,10 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=51]
+[sub_resource type="Animation" id=34]
 length = 2.18333
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=35]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_active")
@@ -1401,7 +1414,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=36]
 length = 0.166667
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_active")
@@ -1416,7 +1429,7 @@ tracks/0/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=37]
 length = 0.833333
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_active")
@@ -1467,13 +1480,13 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=38]
 length = 0.833333
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=39]
 length = 0.45
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=40]
 length = 0.416667
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationFlags:is_active")
@@ -1488,19 +1501,19 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=41]
 length = 0.2
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=42]
 length = 0.666667
 
-[sub_resource type="Animation" id=38]
+[sub_resource type="Animation" id=43]
 length = 0.833333
 
-[sub_resource type="Animation" id=39]
+[sub_resource type="Animation" id=44]
 length = 0.001
 
-[sub_resource type="Animation" id=40]
+[sub_resource type="Animation" id=45]
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationTree:parameters/1_and_-1/blend_amount")
 tracks/0/interp = 1
@@ -1514,7 +1527,7 @@ tracks/0/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=41]
+[sub_resource type="Animation" id=46]
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationTree:parameters/anim_and_space/blend_amount")
 tracks/0/interp = 1
@@ -1528,7 +1541,7 @@ tracks/0/keys = {
 "values": [ 0.0, 1.0 ]
 }
 
-[sub_resource type="Animation" id=42]
+[sub_resource type="Animation" id=47]
 step = 0.0166667
 tracks/0/type = "animation"
 tracks/0/path = NodePath("ModelContainer/sword_fighter/AnimationPlayer")
@@ -1589,7 +1602,7 @@ tracks/4/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=43]
+[sub_resource type="Animation" id=48]
 length = 1.16667
 step = 0.0166667
 tracks/0/type = "value"
@@ -1655,7 +1668,7 @@ tracks/4/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=44]
+[sub_resource type="Animation" id=49]
 length = 1.16667
 step = 0.0166667
 tracks/0/type = "animation"
@@ -1669,7 +1682,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 
-[sub_resource type="Animation" id=45]
+[sub_resource type="Animation" id=50]
 step = 0.0166667
 tracks/0/type = "animation"
 tracks/0/path = NodePath("ModelContainer/sword_fighter/AnimationPlayer")
@@ -1730,7 +1743,7 @@ tracks/4/keys = {
 "values": [  ]
 }
 
-[sub_resource type="RayShape" id=46]
+[sub_resource type="RayShape" id=51]
 length = 3.0
 
 [node name="SwordFighter" type="KinematicBody"]
@@ -1766,11 +1779,8 @@ root_motion_track = NodePath("Armature/Skeleton:root")
 parameters/1_and_-1/blend_amount = 0.0
 parameters/Seek/seek_position = -1.0
 parameters/TimeScale/scale = 1.0
-parameters/anim_and_space/blend_amount = 0.0
 parameters/animation_-1_seek/seek_position = -1.0
 parameters/animation_1_seek/seek_position = -1.0
-parameters/space2d_seek/seek_position = -1.0
-parameters/walk_blend/blend_position = Vector2( -0.187, 0.734 )
 
 [node name="AnimationEvents" type="AnimationPlayer" parent="."]
 anims/def_block_hi = SubResource( 2 )
@@ -1784,52 +1794,56 @@ anims/def_taunt = SubResource( 9 )
 anims/defensive_stance = SubResource( 10 )
 anims/jump_land = SubResource( 11 )
 anims/jump_start = SubResource( 12 )
-anims/knocked_down = SubResource( 47 )
-anims/off_block_break = SubResource( 48 )
-anims/off_block_hi = SubResource( 13 )
-anims/off_block_low = SubResource( 14 )
-anims/off_h_r_0001 = SubResource( 15 )
-anims/off_h_r_1 = SubResource( 16 )
-anims/off_h_r_heavy = SubResource( 17 )
-anims/off_hi_fierce = SubResource( 18 )
-anims/off_hi_l_light = SubResource( 19 )
-anims/off_hi_r_light = SubResource( 20 )
-anims/off_kick = SubResource( 21 )
-anims/off_run_startup = SubResource( 22 )
-anims/off_run_stop = SubResource( 23 )
-anims/off_taunt = SubResource( 24 )
-anims/off_throw_f = SubResource( 49 )
-anims/off_throw_f_startup = SubResource( 50 )
-anims/off_walk_back = SubResource( 25 )
-anims/off_walk_forward = SubResource( 26 )
-anims/off_walk_left = SubResource( 27 )
-anims/off_walk_right = SubResource( 28 )
-anims/offensive_stance = SubResource( 29 )
-anims/receive_off_throw_f = SubResource( 51 )
-anims/run_break = SubResource( 30 )
-anims/run_break_loop = SubResource( 31 )
-anims/run_loop = SubResource( 32 )
-anims/run_loop_2 = SubResource( 33 )
-anims/run_stop = SubResource( 34 )
-anims/run_stop_dash = SubResource( 35 )
-anims/run_stop_loop = SubResource( 36 )
-anims/stance_def_to_off = SubResource( 37 )
-anims/stance_off_to_def = SubResource( 38 )
-anims/t_pose = SubResource( 39 )
+anims/knocked_down = SubResource( 13 )
+anims/off_block_break = SubResource( 14 )
+anims/off_block_hi = SubResource( 15 )
+anims/off_block_low = SubResource( 16 )
+anims/off_h_r_0001 = SubResource( 17 )
+anims/off_h_r_1 = SubResource( 18 )
+anims/off_h_r_heavy = SubResource( 19 )
+anims/off_hi_fierce = SubResource( 20 )
+anims/off_hi_l_light = SubResource( 21 )
+anims/off_hi_r_light = SubResource( 22 )
+anims/off_kick = SubResource( 23 )
+anims/off_run_startup = SubResource( 24 )
+anims/off_run_stop = SubResource( 25 )
+anims/off_taunt = SubResource( 26 )
+anims/off_throw_f = SubResource( 27 )
+anims/off_throw_f_startup = SubResource( 28 )
+anims/off_walk_back = SubResource( 29 )
+anims/off_walk_forward = SubResource( 30 )
+anims/off_walk_left = SubResource( 31 )
+anims/off_walk_right = SubResource( 32 )
+anims/offensive_stance = SubResource( 33 )
+anims/receive_off_throw_f = SubResource( 34 )
+anims/run_break = SubResource( 35 )
+anims/run_break_loop = SubResource( 36 )
+anims/run_loop = SubResource( 37 )
+anims/run_loop_2 = SubResource( 38 )
+anims/run_stop = SubResource( 39 )
+anims/run_stop_dash = SubResource( 40 )
+anims/run_stop_loop = SubResource( 41 )
+anims/stance_def_to_off = SubResource( 42 )
+anims/stance_off_to_def = SubResource( 43 )
+anims/t_pose = SubResource( 44 )
 script = ExtResource( 8 )
 
 [node name="AnimationBlender" type="AnimationPlayer" parent="."]
-anims/blend_animation_1_animation_-1 = SubResource( 40 )
-anims/blend_animation_and_space = SubResource( 41 )
-anims/idle = SubResource( 42 )
-"anims/off_h_r_heavy (copy)" = SubResource( 43 )
-anims/off_hi_heavy = SubResource( 44 )
-anims/walk = SubResource( 45 )
+anims/blend_animation_1_animation_-1 = SubResource( 45 )
+anims/blend_animation_and_space = SubResource( 46 )
+anims/idle = SubResource( 47 )
+"anims/off_h_r_heavy (copy)" = SubResource( 48 )
+anims/off_hi_heavy = SubResource( 49 )
+anims/walk = SubResource( 50 )
 
 [node name="ModelContainer" type="Spatial" parent="."]
 
 [node name="sword_fighter" parent="ModelContainer" instance=ExtResource( 1 )]
 transform = Transform( -0.6, 0, -9.05975e-08, 0, 0.6, 0, 9.05975e-08, 0, -0.6, 0, 0, 0 )
+
+[node name="Skeleton" parent="ModelContainer/sword_fighter/Armature" index="0"]
+bones/2/bound_children = [ NodePath("ThrowAttachment") ]
+bones/12/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="Cube" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="0"]
 material/0 = ExtResource( 12 )
@@ -1855,28 +1869,28 @@ blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offen
 
 [node name="Hitbox" parent="ModelContainer" instance=ExtResource( 9 )]
 transform = Transform( 0.378735, 0, 0, 0, 0.378735, 0, 0, 0, 0.378735, 0.00636727, 1.192, -0.759958 )
+visible = false
 hit_info = ExtResource( 10 )
 hit_name = "off_throw_f_startup"
 
 [node name="Hitbox2" parent="ModelContainer" instance=ExtResource( 9 )]
-transform = Transform( 0.555088, 0, 0, 0, 0.555088, 0, 0, 0, 0.555088, -0.00455561, 1.25873, -0.340885 )
-active = true
+transform = Transform( 0.569786, 0, 0, 0, 0.569786, 0, 0, 0, 0.569786, 0.0618832, 1.25873, -1.56914 )
 hit_info = ExtResource( 10 )
-hit_name = "off_kick"
+hit_name = "def_hi_light"
 
 [node name="RSide" type="Area" parent="ModelContainer"]
 transform = Transform( 0.5, -1.13133e-08, 0.866025, 4.36679e-09, 1, 1.05424e-08, -0.866025, -1.48943e-09, 0.5, 0, 1, 0 )
 collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="ModelContainer/RSide"]
-shape = SubResource( 46 )
+shape = SubResource( 51 )
 
 [node name="LSide" type="Area" parent="ModelContainer"]
 transform = Transform( 0.5, -1.12605e-05, -0.866025, -1.84381e-06, 1, -1.4067e-05, 0.866025, 8.63028e-06, 0.5, 0, 1, 0 )
 collision_layer = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="ModelContainer/LSide"]
-shape = SubResource( 46 )
+shape = SubResource( 51 )
 
 [node name="CameraPointPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )

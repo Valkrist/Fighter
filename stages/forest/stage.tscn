@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://stages/forest/forest_environment.tres" type="Environment" id=1]
 [ext_resource path="res://entities/sword_figher/sword_fighter.tscn" type="PackedScene" id=2]
@@ -7,9 +7,7 @@
 [ext_resource path="res://ui/lifebar/lifebar.tscn" type="PackedScene" id=5]
 [ext_resource path="res://ui/input_display/input_display.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/sword_figher/sword_fighter_player_2.material" type="Material" id=7]
-[ext_resource path="res://stages/forest/tree/tree.glb" type="PackedScene" id=8]
-[ext_resource path="res://stages/forest/floor_tile (2).jpg" type="Texture" id=9]
-[ext_resource path="res://stages/forest/tree/shrub.tscn" type="PackedScene" id=10]
+[ext_resource path="res://stages/decorative.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CylinderMesh" id=1]
 material = ExtResource( 4 )
@@ -76,16 +74,8 @@ node_connections = [ "output", 0, "TimeScale", "1_and_-1", 0, "animation_1_seek"
 
 [sub_resource type="CubeMesh" id=13]
 
-[sub_resource type="BoxShape" id=16]
+[sub_resource type="BoxShape" id=14]
 extents = Vector3( 10, 0.5, 10 )
-
-[sub_resource type="SpatialMaterial" id=14]
-albedo_texture = ExtResource( 9 )
-uv1_scale = Vector3( 24, 16, 1 )
-
-[sub_resource type="CubeMesh" id=15]
-material = SubResource( 14 )
-size = Vector3( 20, 1, 20 )
 
 [node name="Stage" type="Spatial"]
 
@@ -124,7 +114,7 @@ rect_scale = Vector2( -1, 1 )
 environment = ExtResource( 1 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( -0.166459, -0.423804, 0.890327, -0.0376933, 0.904998, 0.423741, -0.985328, 0.0369762, -0.16662, 0, 4, 0 )
+transform = Transform( -0.156132, -0.424168, 0.892023, -0.0376933, 0.904999, 0.423741, -0.987017, 0.0325362, -0.157288, 0, 4, 0 )
 light_energy = 1.5
 shadow_enabled = true
 
@@ -155,12 +145,6 @@ playback_process_mode = 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5 )
 target = NodePath("../sword_fighter2")
 
-[node name="Hitbox" parent="sword_fighter/ModelContainer" index="1"]
-visible = false
-
-[node name="Hitbox2" parent="sword_fighter/ModelContainer" index="2"]
-visible = false
-
 [node name="sword_fighter2" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5 )
 target = NodePath("../sword_fighter")
@@ -177,6 +161,12 @@ material/0 = ExtResource( 7 )
 
 [node name="sword" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="1"]
 material/0 = ExtResource( 7 )
+
+[node name="BoneAttachment" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
+transform = Transform( 1, 0, 0, 0, 0.998474, 0.0552152, 0, -0.0552152, 0.998474, -6.59474e-17, 2.24226, 0 )
+
+[node name="AnimationPlayer" parent="sword_fighter2/ModelContainer/sword_fighter" index="1"]
+blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
 
 [node name="InterpolatedCamera" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.00497429, -0.459186, 0.888326, 0, 0.888337, 0.459192, -0.999988, 0.00228415, -0.00441885, 5.30534, 3.75645, -0.193563 )
@@ -213,97 +203,25 @@ depth = 10.0
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.245, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Bounds/StaticBody"]
-shape = SubResource( 16 )
+shape = SubResource( 14 )
 
 [node name="CollisionShape2" type="CollisionShape" parent="Bounds/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -20 )
-shape = SubResource( 16 )
+shape = SubResource( 14 )
 
 [node name="CollisionShape3" type="CollisionShape" parent="Bounds/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 20.3 )
-shape = SubResource( 16 )
+shape = SubResource( 14 )
 
 [node name="CollisionShape5" type="CollisionShape" parent="Bounds/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 1.13249e-06 )
-shape = SubResource( 16 )
+shape = SubResource( 14 )
 
 [node name="CollisionShape4" type="CollisionShape" parent="Bounds/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1, 1.13249e-06 )
-shape = SubResource( 16 )
+shape = SubResource( 14 )
 
-[node name="Decorative" type="Spatial" parent="."]
-
-[node name="MeshInstance9" type="MeshInstance" parent="Decorative"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49, 0 )
-mesh = SubResource( 15 )
-material/0 = null
-
-[node name="MeshInstance" type="MeshInstance" parent="Decorative"]
-transform = Transform( 2, 0, 0, 0, 5.71242, 0, 0, 0, 2, 11.6, 6.26459, -11.4 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance2" type="MeshInstance" parent="Decorative"]
-transform = Transform( 2, 0, 0, 0, 5.71242, 0, 0, 0, 2, 9.03754, 3.79802, -13.0521 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance4" type="MeshInstance" parent="Decorative"]
-transform = Transform( 2, 0, 0, 0, 5.71242, 0, 0, 0, 2, 13.0354, -0.2, -8.16464 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance5" type="MeshInstance" parent="Decorative"]
-transform = Transform( -0.38934, 4.63724, -1.10111, 1.93065, 1.47431, 0.0784386, 0.34786, -2.99234, -1.66775, -10.045, 3.1221, 17.1047 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance6" type="MeshInstance" parent="Decorative"]
-transform = Transform( 2, 0, 0, 0, 5.71242, 0, 0, 0, 2, 11.8, 0.2, 11.6 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance7" type="MeshInstance" parent="Decorative"]
-transform = Transform( -0.517638, 3.16486, 1.58248, 0, 4.67934, -1.14715, -1.93185, -0.848024, -0.424024, -12.4962, 4.6, -9.26162 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance8" type="MeshInstance" parent="Decorative"]
-transform = Transform( 1.28558, -2.50996, -1.25501, 0, 4.67934, -1.14715, 1.53209, 2.1061, 1.05308, -6.0962, 2.8, -13.2616 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance3" type="MeshInstance" parent="Decorative"]
-transform = Transform( 2, 0, 0, 0, 3.59134, 0, 0, 0, 2, -12.2, 2.6, 9.8 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="tree" parent="Decorative" instance=ExtResource( 8 )]
-transform = Transform( 0.318755, 0, -0.984008, 0, 1.03435, 0, 0.984008, 0, 0.318755, 15.4339, 0.698763, -0.460075 )
-
-[node name="tree2" parent="Decorative" instance=ExtResource( 8 )]
-transform = Transform( -1.03336, 0, -0.0450994, 0, 1.03435, 0, 0.0450994, 0, -1.03336, -16.1841, 0.698763, -3.5199 )
-
-[node name="tree3" parent="Decorative" instance=ExtResource( 8 )]
-transform = Transform( -0.811902, 0, -2.81419, 0, 2.92897, 0, 2.81419, 0, -0.811902, 0.640652, -0.406636, -32.5709 )
-
-[node name="tree4" parent="Decorative" instance=ExtResource( 8 )]
-transform = Transform( 0.972551, 0, -2.76279, 0, 2.92897, 0, 2.76279, 0, 0.972551, 0.564826, -0.406635, 21.0898 )
-
-[node name="Scene Root" parent="Decorative" instance=ExtResource( 10 )]
-transform = Transform( 0.0385336, 0, 0.867968, 0, 0.492508, 0, -0.867968, 0, 0.0385336, -9.65193, 0.139192, 7.76126 )
-
-[node name="Scene Root2" parent="Decorative" instance=ExtResource( 10 )]
-transform = Transform( 0.453492, 0, -0.96929, 0, 0.492508, 0, 0.96929, 0, 0.453492, -8.72935, 0.139191, -8.58931 )
-
-[node name="Scene Root3" parent="Decorative" instance=ExtResource( 10 )]
-transform = Transform( 1.0677, 0, 0.0720586, 0, 0.492508, 0, -0.0720586, 0, 1.0677, 8.54806, 0.139191, -8.71991 )
-
-[node name="Scene Root4" parent="Decorative" instance=ExtResource( 10 )]
-transform = Transform( 1.0677, 0, 0.0720586, 0, 0.492508, 0, -0.0720586, 0, 1.0677, 8.46803, 0.139192, 9.44399 )
-
-[node name="Scene Root5" parent="Decorative" instance=ExtResource( 10 )]
-transform = Transform( 0.991401, 0, 0.0669092, 0, 0.492508, 0, -0.0669092, 0, 0.991401, -8.96997, 0.151142, 9.3144 )
+[node name="Decorative" parent="." instance=ExtResource( 8 )]
 [connection signal="hp_changed" from="sword_fighter" to="Lifebar" method="_on_sword_fighter_hp_changed"]
 [connection signal="requested_camera" from="sword_fighter" to="InterpolatedCamera" method="_on_sword_fighter_requested_camera"]
 [connection signal="hp_changed" from="sword_fighter2" to="Lifebar2" method="_on_sword_fighter_hp_changed"]
