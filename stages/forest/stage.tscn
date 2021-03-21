@@ -156,17 +156,15 @@ reverse_left_right = true
 [node name="AnimationTree" parent="sword_fighter2" index="4"]
 tree_root = SubResource( 12 )
 
+[node name="Skeleton" parent="sword_fighter2/ModelContainer/sword_fighter/Armature" index="0"]
+bones/10/bound_children = [  ]
+bones/24/bound_children = [  ]
+
 [node name="Cube" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="0"]
 material/0 = ExtResource( 7 )
 
 [node name="sword" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="1"]
 material/0 = ExtResource( 7 )
-
-[node name="BoneAttachment" parent="sword_fighter2/ModelContainer/sword_fighter/Armature/Skeleton" index="2"]
-transform = Transform( 1, 0, 0, 0, 0.998474, 0.0552152, 0, -0.0552152, 0.998474, -6.59474e-17, 2.24226, 0 )
-
-[node name="AnimationPlayer" parent="sword_fighter2/ModelContainer/sword_fighter" index="1"]
-blend_times = [ "def_hi_light", "offensive_stance", 1.0, "off_hi_fierce", "offensive_stance", 0.5, "offensive_stance", "off_hi_fierce", 0.2 ]
 
 [node name="InterpolatedCamera" parent="." instance=ExtResource( 3 )]
 transform = Transform( -0.00497429, -0.459186, 0.888326, 0, 0.888337, 0.459192, -0.999988, 0.00228415, -0.00441885, 5.30534, 3.75645, -0.193563 )
@@ -222,15 +220,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1, 1.13249e-06 )
 shape = SubResource( 14 )
 
 [node name="Decorative" parent="." instance=ExtResource( 8 )]
+
 [connection signal="hp_changed" from="sword_fighter" to="Lifebar" method="_on_sword_fighter_hp_changed"]
 [connection signal="requested_camera" from="sword_fighter" to="InterpolatedCamera" method="_on_sword_fighter_requested_camera"]
 [connection signal="hp_changed" from="sword_fighter2" to="Lifebar2" method="_on_sword_fighter_hp_changed"]
 [connection signal="requested_camera" from="sword_fighter2" to="InterpolatedCamera" method="_on_sword_fighter_requested_camera"]
 
 [editable path="Lifebar2"]
-
 [editable path="sword_fighter"]
-
 [editable path="sword_fighter2"]
-
 [editable path="sword_fighter2/ModelContainer/sword_fighter"]

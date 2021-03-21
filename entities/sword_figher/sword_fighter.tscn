@@ -1841,10 +1841,6 @@ anims/walk = SubResource( 50 )
 [node name="sword_fighter" parent="ModelContainer" instance=ExtResource( 1 )]
 transform = Transform( -0.6, 0, -9.05975e-08, 0, 0.6, 0, 9.05975e-08, 0, -0.6, 0, 0, 0 )
 
-[node name="Skeleton" parent="ModelContainer/sword_fighter/Armature" index="0"]
-bones/2/bound_children = [ NodePath("ThrowAttachment") ]
-bones/12/bound_children = [ NodePath("BoneAttachment") ]
-
 [node name="Cube" parent="ModelContainer/sword_fighter/Armature/Skeleton" index="0"]
 material/0 = ExtResource( 12 )
 
@@ -1875,6 +1871,7 @@ hit_name = "off_throw_f_startup"
 
 [node name="Hitbox2" parent="ModelContainer" instance=ExtResource( 9 )]
 transform = Transform( 0.569786, 0, 0, 0, 0.569786, 0, 0, 0, 0.569786, 0.0618832, 1.25873, -1.56914 )
+visible = false
 hit_info = ExtResource( 10 )
 hit_name = "def_hi_light"
 
@@ -1901,6 +1898,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.6, 1.5 )
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 3.0
 playback/speed = 3.0
+
 [connection signal="flag_changed" from="AnimationFlags" to="." method="_on_AnimationFlags_flag_changed"]
 [connection signal="received_input" from="InputListener" to="." method="_on_InputListener_received_input"]
 [connection signal="animation_finished" from="AnimationEvents" to="." method="_on_AnimationEvents_animation_finished"]

@@ -17,7 +17,7 @@ func get_animation_data():
 #	entity.apply_root_motion(delta)
 
 func _dealt_hit(collided_entity):
-	# FIX THIS CAQUEADA
+	# FIX
 	if not collided_entity is PeerEntity :
 		entity.request_camera(-sign(collided_entity.camera_point.translation.x))
 

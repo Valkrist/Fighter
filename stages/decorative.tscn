@@ -1,15 +1,14 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://objects/test_material.material" type="Material" id=1]
-[ext_resource path="res://stages/forest/grass/grass.jpg" type="Texture" id=2]
+[ext_resource path="res://stages/forest/tiles_diffuseOriginal.jpg" type="Texture" id=2]
 [ext_resource path="res://stages/forest/tree/tree.glb" type="PackedScene" id=3]
 [ext_resource path="res://stages/forest/tree/shrub.tscn" type="PackedScene" id=4]
 [ext_resource path="res://stages/forest/grass/dither_opacity_shadermaterial.tres" type="Material" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
-albedo_color = Color( 0.882813, 0.648315, 0.648315, 1 )
 albedo_texture = ExtResource( 2 )
-uv1_scale = Vector3( 10, 10, 1 )
+uv1_scale = Vector3( 15, 10, 1 )
 
 [sub_resource type="CubeMesh" id=2]
 material = SubResource( 1 )
