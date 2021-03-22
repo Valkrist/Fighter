@@ -7,7 +7,9 @@
 [ext_resource path="res://stages/forest/grass/dither_opacity_shadermaterial.tres" type="Material" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
-albedo_color = Color( 0.678431, 0.47451, 0.47451, 1 )
+
+albedo_color = Color( 0.682353, 0.47451, 0.47451, 1 )
+
 albedo_texture = ExtResource( 2 )
 uv1_scale = Vector3( 15, 10, 1 )
 
